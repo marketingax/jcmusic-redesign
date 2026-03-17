@@ -311,6 +311,156 @@ input:checked + .slider:before {
     letter-spacing: 1px;
 }
 
+/* Sub-Hero & Layout Utilities */
+.sub-hero {
+    height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    padding-top: 80px;
+}
+
+.sub-hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.max-800 { max-width: 800px; margin: 0 auto; }
+.margin-top-20 { margin-top: 20px; }
+.margin-top-40 { margin-top: 40px; }
+.text-center { text-align: center; }
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.content-section {
+    padding: 100px 0;
+}
+
+.text-block h2 {
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+}
+
+.text-block p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+}
+
+.bullet-list {
+    list-style: none;
+    margin-top: 20px;
+}
+
+.bullet-list li {
+    padding-left: 25px;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.bullet-list li:before {
+    content: "•";
+    color: var(--gold);
+    position: absolute;
+    left: 0;
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.img-block img, .prime-img-block img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid var(--gold);
+}
+
+/* Portfolio Grid */
+.portfolio-grid-section {
+    padding: 80px 0;
+    background: #111;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.portfolio-item {
+    background: var(--light-grey);
+    padding: 40px;
+    border-radius: 12px;
+    border-bottom: 3px solid var(--gold);
+    transition: var(--transition);
+}
+
+.portfolio-item:hover {
+    transform: translateY(-10px);
+}
+
+.portfolio-item h3 {
+    color: var(--gold);
+    margin-bottom: 15px;
+}
+
+/* PRIME Stats */
+.prime-stats {
+    margin: 60px 0;
+    padding: 40px;
+    background: #1a1a1a;
+    border-radius: 12px;
+    border: 1px solid var(--gold);
+}
+
+.stat-item h3 {
+    font-size: 2rem;
+    margin-bottom: 5px;
+}
+
+/* CTA Banner */
+.cta-banner {
+    padding: 80px 5%;
+    background: linear-gradient(rgba(10,10,10,0.9), rgba(10,10,10,0.9)), url('assets/Jerry+Theatre.jpg');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+}
+
+.cta-banner h2 { font-size: 2.5rem; margin-bottom: 20px; }
+.cta-banner p { margin-bottom: 30px; color: var(--text-dim); }
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .grid-2, .grid-3, .portfolio-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .sub-hero h1 { font-size: 2.5rem; }
+}
+
 .pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
