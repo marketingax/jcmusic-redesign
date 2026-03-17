@@ -404,17 +404,38 @@ input:checked + .slider:before {
 
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 40px;
     margin-top: 50px;
 }
 
 .portfolio-item {
-    background: var(--light-grey);
-    padding: 40px;
+    background: var(--dark-grey);
+    padding: 0;
     border-radius: 12px;
-    border-bottom: 3px solid var(--gold);
+    border: 1px solid rgba(212, 175, 55, 0.1);
     transition: var(--transition);
+    overflow: hidden;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.portfolio-item .item-info {
+    padding: 25px;
 }
 
 .portfolio-item:hover {
