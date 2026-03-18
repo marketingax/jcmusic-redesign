@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Piano Lessons | JC Music Institute</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <a href="index.html"><img src="assets/JC+MUSIC+ENTERPRISE++LOGO+.png" alt="JC Music Enterprise Logo"></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="lessons.html" class="active">Lessons</a></li>
+            <li><a href="scoring.html">Scoring</a></li>
+            <li><a href="prime-hour.html">Prime Hour</a></li>
+            <li><a href="apply.html" class="btn-enroll">Enroll Now</a></li>
+        </ul>
+    </nav>
+
+    <!-- Sub-Hero Section -->
+    <header class="sub-hero" style="background-image: linear-gradient(rgba(10,10,10,0.8), rgba(10,10,10,0.8)), url('assets/asset_3.jpg');">
+        <div class="hero-content">
+            <h1>Expert <span class="gold-text">Music Education</span></h1>
+            <p>Personalized piano mentorship tailored to your unique learning style.</p>
+        </div>
+    </header>
+
+    <!-- In-Depth Info Section -->
+    <section class="content-section">
+        <div class="container">
+            <div class="grid-2">
+                <div class="text-block">
+                    <h2 class="gold-text">A Cornerstone of Development</h2>
+                    <p>Music is more than just a skill—it is a cornerstone of well-rounded development. At JC Music Institute, our private piano lessons are designed to foster creativity, discipline, and a lifelong love for music.</p>
+                    <p>Our curriculum is not one-size-fits-all. We believe that every student has a unique learning style, and our lessons are meticulously tailored to meet those individual needs. Whether you are a beginner or an advanced player, our Juilliard-affiliated mentorship provides the guidance necessary to reach your full potential.</p>
+                </div>
+                <div class="img-block">
+                    <img src="assets/asset_5.jpg" alt="Student practicing piano">
+                </div>
+            </div>
+
+            <div class="grid-2 margin-top-40">
+                <div class="img-block">
+                    <img src="assets/DSC00726.jpeg" alt="Performance at JC Music Institute">
+                </div>
+                <div class="text-block">
+                    <h2 class="gold-text">Performance & Growth</h2>
+                    <p>We place a strong emphasis on performance as a tool for growth. Our students have the opportunity to participate in the 'STUDENTS RECITAL', where they can showcase their progress and build confidence on stage.</p>
+                    <p>From mastering classical foundations to performing modern hits like Alicia Keys' 'Girl on Fire', our students explore a wide range of musical genres. We celebrate every milestone, from the first scale to complex compositions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section (Moved from Index) -->
+    <section id="programs" class="pricing">
+        <div class="container">
+            <h2>Choose Your <span class="gold-text">Musical Journey</span></h2>
+            
+            <!-- Payment Plans Highlight -->
+            <div class="payment-plans-banner margin-top-20">
+                <p>Flexible Payment Plans Available</p>
+                <div class="payment-logos">
+                    <span class="payment-logo">Affirm</span>
+                    <span class="payment-logo">Klarna</span>
+                    <span class="payment-logo">Afterpay</span>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-dim); margin-top: 10px;">Reduce upfront costs with easy monthly installments.</p>
+            </div>
+            
+            <!-- Pricing Toggle -->
+            <div class="pricing-toggle margin-top-40">
+                <span class="toggle-label active" id="toggle-30">30 MIN SESSIONS</span>
+                <label class="switch">
+                    <input type="checkbox" id="session-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <span class="toggle-label" id="toggle-60">1 HR SESSIONS</span>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Starter -->
+                <div class="price-card">
+                    <h3>Starter Foundations</h3>
+                    <p>Beginner Entry Package</p>
+                    <div class="price-value" id="price-starter">$200 <span>/ 4 Lessons</span></div>
+                    <ul class="price-features">
+                        <li>30-Day Commitment</li>
+                        <li>Perfect for Testing the Waters</li>
+                        <li>Basic Musical Syllabus</li>
+                        <li>Digital Practice Guides</li>
+                    </ul>
+                    <a href="apply.html" class="btn btn-secondary">Get Started</a>
+                </div>
+
+                <!-- 6-Month Mastery (Featured) -->
+                <div class="price-card featured" id="card-6month">
+                    <div class="featured-badge">MOST POPULAR</div>
+                    <h3>6-Month Mastery</h3>
+                    <p>Accelerated Skill Track</p>
+                    <div class="price-value" id="price-6month">$1,397 <span>/ 6 Months</span></div>
+                    <div class="discount-badge-label" id="discount-6month" style="display:none;">5% UPGRADE DISCOUNT APPLIED</div>
+                    <ul class="price-features">
+                        <li>Weekly Structured Lessons</li>
+                        <li>Performance-Based Syllabus</li>
+                        <li><strong>FREE Branded Polo Shirt</strong></li>
+                        <li>Completion Certificate</li>
+                        <li>Milestone Evaluation</li>
+                    </ul>
+                    <a href="apply.html" class="btn btn-primary">Enroll in Mastery</a>
+                </div>
+
+                <!-- Annual Elite -->
+                <div class="price-card">
+                    <h3>Annual Elite</h3>
+                    <p>The VIP Partnership</p>
+                    <div class="price-value" id="price-annual">$2,497 <span>/ Year</span></div>
+                    <div class="original-price" id="original-annual">WAS $2,797</div>
+                    <div class="discount-badge-label" id="discount-annual" style="display:none;">5% UPGRADE DISCOUNT APPLIED</div>
+                    <ul class="price-features">
+                        <li>Year-Round Mastery Track</li>
+                        <li>Locked-in Guaranteed Rate</li>
+                        <li><strong>2 Branded Shirts (Tee + Polo)</strong></li>
+                        <li>VIP Scheduling Priority</li>
+                        <li>Invitations to Private Showcases</li>
+                    </ul>
+                    <a href="apply.html" class="btn btn-secondary">Lock in VIP</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-banner">
+        <div class="container">
+            <h2>Ready to Start Your Journey?</h2>
+            <p>Join the JC Music Institute and experience world-class mentorship.</p>
+            <a href="apply.html" class="btn btn-primary">Apply Now</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="assets/JC+Music+Enterprises+Blk+Logo.png" alt="JC Music Logo Black">
+                </div>
+                <p>Elevating music through quality, precision, and artistry.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Programs</h4>
+                <ul class="footer-links">
+                    <li><a href="lessons.html">Piano Mastery</a></li>
+                    <li><a href="scoring.html">Film & TV Scoring</a></li>
+                    <li><a href="prime-hour.html">The PRIME Hour</a></li>
+                    <li><a href="scoring.html">Music Production</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Safety & Policies</h4>
+                <ul class="footer-links">
+                    <li><a href="policies.html#cancellation">Cancellation Policy</a></li>
+                    <li><a href="policies.html#income">Income Protection</a></li>
+                    <li><a href="policies.html#privacy">Privacy Policy</a></li>
+                    <li><a href="policies.html#terms">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li>info@jcmusicenterprise.com</li>
+                    <li>+1 609-920-0033</li>
+                    <li>Ewing, NJ</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 JC Music Enterprise. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Pricing Toggle Logic
+        const toggle = document.getElementById('session-toggle');
+        const priceStarter = document.getElementById('price-starter');
+        const price6Month = document.getElementById('price-6month');
+        const priceAnnual = document.getElementById('price-annual');
+        const originalAnnual = document.getElementById('original-annual');
+        const disc6 = document.getElementById('discount-6month');
+        const discAnn = document.getElementById('discount-annual');
+        const label30 = document.getElementById('toggle-30');
+        const label60 = document.getElementById('toggle-60');
+
+        toggle.addEventListener('change', () => {
+            if (toggle.checked) {
+                // 1 Hour Mode
+                priceStarter.innerHTML = '$400 <span>/ 4 Lessons</span>';
+                price6Month.innerHTML = '$2,654 <span>/ 6 Months</span>';
+                priceAnnual.innerHTML = '$4,745 <span>/ Year</span>';
+                originalAnnual.innerText = 'WAS $5,594';
+                disc6.style.display = 'block';
+                discAnn.style.display = 'block';
+                label60.classList.add('active');
+                label30.classList.remove('active');
+            } else {
+                // 30 Min Mode
+                priceStarter.innerHTML = '$200 <span>/ 4 Lessons</span>';
+                price6Month.innerHTML = '$1,397 <span>/ 6 Months</span>';
+                priceAnnual.innerHTML = '$2,497 <span>/ Year</span>';
+                originalAnnual.innerText = 'WAS $2,797';
+                disc6.style.display = 'none';
+                discAnn.style.display = 'none';
+                label30.classList.add('active');
+                label60.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
