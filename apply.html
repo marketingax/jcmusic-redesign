@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Application | JC Music Institute</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .application-form {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--dark-grey);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid var(--gold);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--gold);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background: var(--black);
+            border: 1px solid var(--light-grey);
+            color: var(--text-white);
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .form-group input:focus {
+            border-color: var(--gold);
+            outline: none;
+        }
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .checkbox-item input {
+            width: auto;
+        }
+        .form-section-title {
+            border-bottom: 1px solid var(--light-grey);
+            margin: 30px 0 20px;
+            padding-bottom: 10px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.1rem;
+        }
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading-overlay">Submitting Application...</div>
+
+    <nav>
+        <div class="logo">
+            <a href="index.html"><img src="assets/JC+MUSIC+ENTERPRISE++LOGO+.png" alt="JC Music Logo"></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#programs">Lessons</a></li>
+            <li><a href="scoring.html">Scoring</a></li>
+            <li><a href="prime-hour.html">Prime Hour</a></li>
+            <li><a href="apply.html" class="btn-enroll">Apply Now</a></li>
+        </ul>
+    </nav>
+
+    <header class="sub-hero" style="background-image: linear-gradient(rgba(10,10,10,0.85), rgba(10,10,10,0.85)), url('assets/asset_3.jpg');">
+        <div class="hero-content">
+            <h1>Student <span class="gold-text">Application</span></h1>
+            <p>JC Music Institute | 141 Homecrest Ave. Ewing NJ 08638 | (609) 920-0033</p>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container">
+            <form class="application-form" id="appForm">
+                <div class="form-section-title">Parent / Guardian Information (If applicable)</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Parent First Name</label>
+                        <input type="text" name="parent_first_name">
+                    </div>
+                    <div class="form-group">
+                        <label>Parent Last Name</label>
+                        <input type="text" name="parent_last_name">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Parent Email</label>
+                    <input type="email" name="parent_email">
+                </div>
+
+                <div class="form-section-title">Student Information</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Student First Name *</label>
+                        <input type="text" name="student_first_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Student Last Name *</label>
+                        <input type="text" name="student_last_name" required>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Date of Birth *</label>
+                        <input type="date" name="dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Student Phone Number</label>
+                        <input type="tel" name="student_phone">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Student Address *</label>
+                    <input type="text" name="address" required>
+                </div>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>City *</label>
+                        <input type="text" name="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label>State *</label>
+                        <input type="text" name="state" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Zip *</label>
+                        <input type="text" name="zip" required>
+                    </div>
+                </div>
+
+                <div class="form-section-title">Emergency Contact</div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Emergency Contact Name *</label>
+                        <input type="text" name="emergency_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Emergency Contact Phone *</label>
+                        <input type="tel" name="emergency_phone" required>
+                    </div>
+                </div>
+
+                <div class="form-section-title">Musical Interest</div>
+                <div class="form-group">
+                    <label>Student Principal (Choose all that apply):</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="principal" value="Voice" id="voice">
+                            <label for="voice" style="margin-bottom:0; color: var(--text-white);">Voice</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="principal" value="Piano" id="piano">
+                            <label for="piano" style="margin-bottom:0; color: var(--text-white);">Piano</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="principal" value="Theory" id="theory">
+                            <label for="theory" style="margin-bottom:0; color: var(--text-white);">Music Theory</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" name="principal" value="Production" id="production">
+                            <label for="production" style="margin-bottom:0; color: var(--text-white);">Music Production</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Years of experience in your Principal field:</label>
+                    <select name="experience">
+                        <option value="0">Beginner</option>
+                        <option value="1">1 Year</option>
+                        <option value="2">2 Years</option>
+                        <option value="3">3 Years</option>
+                        <option value="4+">4 Years and above</option>
+                    </select>
+                </div>
+
+                <div class="form-group margin-top-40">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Submit Application & View Onboarding</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        const EDGE_FUNCTION_URL = 'https://jftonyjcndrmixnlvdvy.supabase.co/functions/v1/jcmusic-onboarding';
+
+        document.getElementById('appForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            document.getElementById('loading').style.display = 'flex';
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Handle multiple checkboxes for principal
+            data.principal = Array.from(formData.getAll('principal'));
+
+            try {
+                const response = await fetch(EDGE_FUNCTION_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'submit_application',
+                        data: data
+                    })
+                });
+
+                const result = await response.json();
+                if (result.success) {
+                    // Store application ID and email for onboarding
+                    localStorage.setItem('jcmusic_app_id', result.applicationId);
+                    localStorage.setItem('jcmusic_email', data.parent_email || '');
+                    window.location.href = 'onboarding.html';
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            } catch (err) {
+                alert('Submission failed. Please try again.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+    </script>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="assets/JC+Music+Enterprises+Blk+Logo.png" alt="JC Music Logo Black">
+                </div>
+                <p>Elevating music through quality, precision, and artistry.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li>info@jcmusicenterprise.com</li>
+                    <li>(609) 920-0033</li>
+                    <li>141 Homecrest Ave. Ewing NJ 08638</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding | JC Music Institute</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .onboarding-content {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--dark-grey);
+            padding: 60px;
+            border-radius: 15px;
+            border: 1px solid var(--gold);
+            line-height: 1.8;
+        }
+        .onboarding-content h2 {
+            color: var(--gold);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5rem;
+        }
+        .onboarding-content h3 {
+            color: var(--gold);
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--light-grey);
+            padding-bottom: 10px;
+        }
+        .onboarding-content p {
+            margin-bottom: 20px;
+            color: var(--text-white);
+        }
+        .onboarding-content ul {
+            margin-bottom: 30px;
+            list-style: none;
+        }
+        .onboarding-content ul li {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+        }
+        .onboarding-content ul li:before {
+            content: "•";
+            color: var(--gold);
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        .tuition-box {
+            background: var(--black);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid var(--gold);
+            margin-top: 40px;
+        }
+        .tuition-box h4 {
+            color: var(--gold);
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .contact-footer {
+            margin-top: 60px;
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid var(--light-grey);
+        }
+        .signature {
+            margin-top: 40px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            color: var(--gold);
+            font-size: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading-overlay">Redirecting to Secure Payment...</div>
+
+    <nav>
+        <div class="logo">
+            <a href="index.html"><img src="assets/JC+MUSIC+ENTERPRISE++LOGO+.png" alt="JC Music Logo"></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="index.html#programs">Lessons</a></li>
+            <li><a href="scoring.html">Scoring</a></li>
+            <li><a href="prime-hour.html">Prime Hour</a></li>
+            <li><a href="apply.html" class="btn-enroll">Apply Now</a></li>
+        </ul>
+    </nav>
+
+    <header class="sub-hero" style="background-image: linear-gradient(rgba(10,10,10,0.85), rgba(10,10,10,0.85)), url('assets/Jerry+Theatre.jpg');">
+        <div class="hero-content">
+            <h1>Welcome to the <span class="gold-text">Institute</span></h1>
+            <p>Your journey towards musical excellence starts here.</p>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="onboarding-content">
+                <h2>JC MUSIC INSTITUTE SERVICES</h2>
+                
+                <p>Welcome to JC Music Institute, where we are dedicated to providing top-quality music education and preparing students for a successful career in the music industry. At our institute, we offer a range of music programs including piano, vocal training, and music production. Our experienced instructors are committed to helping students develop their musical talents and reach their full potential.</p>
+
+                <h3>Programs Offered</h3>
+                <ul>
+                    <li><strong>Piano:</strong> Our piano program is designed to cater to students of all levels, from beginners to advanced players. Students will receive personalized instruction to improve their technique and musicality.</li>
+                    <li><strong>Vocal Training:</strong> Our vocal training program focuses on developing students' vocal range, tone, and performance skills. Students will learn various vocal techniques and styles to enhance their singing abilities.</li>
+                    <li><strong>Music Production:</strong> Our music production program is perfect for students interested in learning about the technical aspects of music creation. Students will learn how to use industry-standard software and equipment to produce high-quality music.</li>
+                </ul>
+
+                <h3>Scholarship Preparation</h3>
+                <p>At JC Music Institute, we understand the importance of scholarships for students aspiring to attend private academic or special schools of the arts institutions. We offer assistance in preparing music portfolios that showcase students' talents and achievements, increasing their chances of receiving scholarships.</p>
+
+                <h3>Specialization</h3>
+                <ul>
+                    <li><strong>Audition Technique:</strong> We specialize in preparing students for auditions, College School Interviews for Undergraduate Music Program and equipping them with the necessary skills and confidence to showcase their talents effectively.</li>
+                    <li><strong>Industry Standard Preparation:</strong> Our instructors provide students with the knowledge and tools needed to meet industry standards in the music field, ensuring they are well-prepared for a successful career.</li>
+                </ul>
+
+                <div class="tuition-box">
+                    <h4>Tuition Details</h4>
+                    <ul>
+                        <li>Tuition: $50 per lesson</li>
+                        <li>Tuition is due at the beginning of the month, totaling $200 for the month</li>
+                        <li>Small discount available for families with two or more students</li>
+                    </ul>
+                    <div class="margin-top-20 text-center">
+                        <button onclick="checkout('price_1Qz...') " class="btn btn-primary">Pay Monthly Tuition ($200)</button>
+                        <p style="font-size: 0.8rem; margin-top: 10px; color: var(--text-dim);">Secure payment via Stripe</p>
+                    </div>
+                </div>
+
+                <div class="contact-footer">
+                    <p><strong>Hours of Operation:</strong> Monday to Saturday: 2:00 PM - 7:30 PM</p>
+                    <p>Call the number below for slots availability. Please leave a text as well.</p>
+                    <p><strong>Phone:</strong> (609) 920-0033</p>
+                    <p><strong>Email:</strong> info@jcmusicenterprise.com</p>
+                    <p><strong>Address:</strong> 141 Homecrest Ave. Ewing NJ 08638</p>
+                    
+                    <div class="signature">
+                        - Jerry Compere -
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const EDGE_FUNCTION_URL = 'https://jftonyjcndrmixnlvdvy.supabase.co/functions/v1/jcmusic-onboarding';
+
+        async function checkout(priceId) {
+            document.getElementById('loading').style.display = 'flex';
+            const applicationId = localStorage.getItem('jcmusic_app_id');
+            const email = localStorage.getItem('jcmusic_email');
+
+            try {
+                const response = await fetch(EDGE_FUNCTION_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'create_checkout',
+                        data: {
+                            priceId: priceId,
+                            applicationId: applicationId,
+                            email: email
+                        }
+                    })
+                });
+
+                const result = await response.json();
+                if (result.url) {
+                    window.location.href = result.url;
+                } else {
+                    alert('Error creating checkout session.');
+                }
+            } catch (err) {
+                alert('Checkout failed. Please try again.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+    </script>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="assets/JC+Music+Enterprises+Blk+Logo.png" alt="JC Music Logo Black">
+                </div>
+                <p>Elevating music through quality, precision, and artistry.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li>info@jcmusicenterprise.com</li>
+                    <li>(609) 920-0033</li>
+                    <li>141 Homecrest Ave. Ewing NJ 08638</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

@@ -362,11 +362,20 @@ input:checked + .slider:before {
     margin-bottom: 25px;
 }
 
+.text-block h3 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
 .text-block p {
     margin-bottom: 20px;
     font-size: 1.1rem;
     color: var(--text-dim);
     line-height: 1.8;
+}
+
+.text-left {
+    text-align: left;
 }
 
 .bullet-list {
