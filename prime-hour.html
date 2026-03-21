@@ -22,7 +22,15 @@
         </ul>
     </nav>
 
-    <header class="sub-hero" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('assets/IMG_3678.jpg');">
+    <header class="hero hero-60">
+        <div class="hero-slideshow">
+            <div class="hero-slide active" style="background-image: url('assets/pcpaperchaser_mixed_group_of_senior_citizens_enjoying_a_music_b90092e9-bfdb-4b2b-b631-f46279b567aa_3.png');"></div>
+            <div class="hero-slide" style="background-image: url('assets/pcpaperchaser_mixed_group_of_senior_citizens_enjoying_a_perfo_4b65cc05-c03a-4bfa-9e03-1a1fb8e295e2_0.png');"></div>
+            <div class="hero-slide" style="background-image: url('assets/pcpaperchaser_mixed_group_of_senior_citizens_enjoying_a_perfo_d0cecbea-2e0e-4ba9-bade-c2bc7863b06b_2.png');"></div>
+            <div class="hero-slide" style="background-image: url('assets/pcpaperchaser_mixed_group_of_senior_citizens_enjoying_a_perfo_d9b448e2-a387-42a6-b404-ae1dc8f0bf21_1.png');"></div>
+            <div class="hero-slide" style="background-image: url('assets/pcpaperchaser_mixed_group_of_senior_citizens_enjoying_a_perfo_d9b448e2-a387-42a6-b404-ae1dc8f0bf21_2.png');"></div>
+        </div>
+        <div class="hero-overlay" style="background: linear-gradient(rgba(10, 10, 10, 0.8), rgba(10, 10, 10, 0.6));"></div>
         <div class="hero-content">
             <div class="prime-logo-header">
                 <img src="assets/Primehour+white+logo.png" alt="The Prime Hour Logo" class="prime-logo-large">
@@ -31,27 +39,6 @@
             <p>A One-Hour Joyful Music Therapy Experience for Seniors</p>
         </div>
     </header>
-
-    <section class="content-section">
-        <div class="container">
-            <div class="grid-2 align-center">
-                <div class="text-block">
-                    <h2 class="gold-text">Why The Prime Hour Works?</h2>
-                    <p>Music can be an effective tool in expression, memorization, and even healing. <strong>The Prime Hour</strong> works to create an atmosphere in the form of music therapy that provides small-group cognitive stimulation and recreation.</p>
-                    <p>It can be an especially powerful experience for those who may struggle with some form of Alzheimer’s disease or dementia. The hour is filled with singing, clapping, movement, and dancing. It is an unforgettable time of reconnection, reflection, and relaxation.</p>
-                    <div class="quote-block">
-                        <blockquote>
-                            "Music produces a kind of pleasure which human nature cannot do without."
-                        </blockquote>
-                        <cite>— Confucius</cite>
-                    </div>
-                </div>
-                <div class="image-block">
-                    <img src="assets/DSC00688.jpeg" alt="Seniors enjoying music" class="rounded-img shadow">
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section class="services-highlight bg-dark">
         <div class="container">
@@ -79,11 +66,32 @@
         </div>
     </section>
 
+    <section class="content-section prime-accent-bg bg-senior-1">
+        <div class="container">
+            <div class="grid-2 align-center">
+                <div class="text-block">
+                    <h2 class="gold-text">Why The Prime Hour Works?</h2>
+                    <p>Music can be an effective tool in expression, memorization, and even healing. <strong>The Prime Hour</strong> works to create an atmosphere in the form of music therapy that provides small-group cognitive stimulation and recreation.</p>
+                    <p>It can be an especially powerful experience for those who may struggle with some form of Alzheimer’s disease or dementia. The hour is filled with singing, clapping, movement, and dancing. It is an unforgettable time of reconnection, reflection, and relaxation.</p>
+                    <div class="quote-block">
+                        <blockquote>
+                            "Music produces a kind of pleasure which human nature cannot do without."
+                        </blockquote>
+                        <cite>— Confucius</cite>
+                    </div>
+                </div>
+                <div class="image-block">
+                    <img src="assets/pcpaperchaser_mixed_group_of_senior_citizens_enjoying_a_perfo_4b65cc05-c03a-4bfa-9e03-1a1fb8e295e2_0.png" alt="Seniors enjoying music" class="rounded-img shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="founder-section">
         <div class="container">
             <div class="grid-2 reverse-mobile align-center">
                 <div class="image-block">
-                    <img src="assets/Jerry+Blk+White.jpg" alt="Paul Jerry Compere" class="rounded-img shadow">
+                    <img src="assets/DSC00688.jpeg" alt="Paul Jerry Compere" class="rounded-img shadow">
                 </div>
                 <div class="text-block">
                     <h2 class="gold-text">About the Founder</h2>
@@ -145,5 +153,17 @@
             <p>&copy; 2026 JC Music Enterprise. All Rights Reserved.</p>
         </div>
     </footer>
+    <script>
+        const slides = document.querySelectorAll('.hero-slide');
+        let currentSlide = 0;
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, 5000);
+    </script>
 </body>
 </html>
