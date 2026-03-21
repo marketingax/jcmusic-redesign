@@ -652,6 +652,8 @@ input:checked + .slider:before {
 
 .bio-img img {
     width: 100%;
+    height: 500px;
+    object-fit: cover;
     border-radius: 15px;
     box-shadow: 20px 20px 0 var(--gold);
 }
@@ -711,4 +713,159 @@ footer {
     border-top: 1px solid rgba(255, 255, 255, 0.05);
     color: var(--text-dim);
     font-size: 0.8rem;
+}
+
+/* Prime Hour Specific Styles */
+.prime-logo-header {
+    margin-bottom: 20px;
+}
+
+.prime-logo-large {
+    height: 120px;
+    width: auto;
+    filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
+}
+
+.align-center {
+    align-items: center;
+}
+
+.quote-block {
+    margin-top: 30px;
+    padding-left: 20px;
+    border-left: 4px solid var(--gold);
+    font-style: italic;
+}
+
+.quote-block blockquote {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    color: var(--text-white);
+    margin-bottom: 10px;
+}
+
+.quote-block cite {
+    font-size: 0.9rem;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.rounded-img {
+    border-radius: 15px;
+}
+
+.shadow {
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+}
+
+.image-block img {
+    max-height: 550px;
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+}
+
+.bg-dark {
+    background-color: var(--dark-grey);
+}
+
+.service-card {
+    background: var(--black);
+    padding: 40px 30px;
+    border-radius: 12px;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+}
+
+.icon-gold {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 20px;
+    display: block;
+}
+
+.founder-section {
+    padding: 100px 0;
+}
+
+.cta-section {
+    padding: 100px 0;
+    background: linear-gradient(rgba(10,10,10,0.9), rgba(10,10,10,0.9)), url('assets/IMG_3678.jpg');
+    background-size: cover;
+    background-position: center;
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.contact-strip {
+    font-size: 1.2rem;
+    color: var(--gold);
+    font-weight: 600;
+}
+
+.margin-bottom-40 {
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .reverse-mobile {
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .prime-logo-large {
+        height: 80px;
+    }
+    .sub-hero h1 {
+        font-size: 2.8rem;
+    }
+}
+
+/* Student Showcase Styles */
+.student-card {
+    background: var(--dark-grey);
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    transition: var(--transition);
+}
+
+.student-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--gold);
+}
+
+.student-img img {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    display: block;
+}
+
+.student-info {
+    padding: 25px;
+    text-align: center;
+}
+
+.student-info h3 {
+    color: var(--gold);
+    margin-bottom: 5px;
+}
+
+.student-info p {
+    font-size: 0.9rem;
+    color: var(--text-dim);
+}
+
+.performances-section {
+    padding: 100px 0;
+}
+
+.recital-section {
+    padding: 100px 0;
 }
