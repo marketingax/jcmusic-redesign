@@ -100,7 +100,7 @@ nav {
 }
 
 .hero-60 {
-    height: 65vh !important;
+    height: 70vh !important;
 }
 
 .hero-slideshow {
@@ -725,7 +725,7 @@ footer {
 }
 
 .prime-logo-large {
-    height: 120px;
+    height: 180px;
     width: auto;
     filter: drop-shadow(0 0 15px rgba(212, 175, 55, 0.4));
     position: relative;
