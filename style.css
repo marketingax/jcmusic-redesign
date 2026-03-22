@@ -935,7 +935,11 @@ footer {
 /* --- Mobile Optimization --- */
 @media (max-width: 992px) {
     nav {
+        position: sticky;
+        top: 0;
         padding: 15px 5%;
+        background: var(--black);
+        backdrop-filter: none;
     }
 
     .logo img {
@@ -1024,9 +1028,10 @@ footer {
 
 @media (max-width: 768px) {
     .hero {
-        padding-top: 120px;
+        padding-top: 60px;
         height: auto;
-        min-height: 100vh;
+        min-height: 80vh;
+        background-position: center center;
     }
 
     .hero h1 {
@@ -1035,7 +1040,9 @@ footer {
 
     .sub-hero {
         height: auto;
-        padding: 120px 20px 60px;
+        min-height: 450px;
+        padding: 60px 20px;
+        background-position: center center;
     }
 
     .sub-hero h1 {
