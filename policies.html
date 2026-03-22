@@ -20,6 +20,11 @@
             <li><a href="students.html">Students</a></li>
             <li><a href="apply.html" class="btn-enroll">Enroll Now</a></li>
         </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </nav>
 
     <header class="sub-hero" style="background-image: linear-gradient(rgba(10,10,10,0.8), rgba(10,10,10,0.8)), url('assets/IMG_3678.jpg');">
@@ -113,5 +118,23 @@
             <p>&copy; 2026 JC Music Enterprise. All Rights Reserved.</p>
         </div>
     </footer>
+    <script>
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
