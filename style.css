@@ -355,7 +355,7 @@ input:checked + .slider:before {
     background-size: cover;
     background-position: center;
     position: relative;
-    padding-top: 80px;
+    padding-top: 120px;
 }
 
 .sub-hero h1 {
@@ -1024,7 +1024,7 @@ footer {
 
 @media (max-width: 768px) {
     .hero {
-        padding-top: 100px;
+        padding-top: 120px;
         height: auto;
         min-height: 100vh;
     }
@@ -1067,5 +1067,11 @@ footer {
 
     .payment-badge {
         height: 30px;
+    }
+
+    .contact-strip {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
     }
 }
