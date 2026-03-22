@@ -42,15 +42,14 @@ h1, h2, h3, h4 {
 
 /* Navigation */
 nav {
-    position: fixed;
+    position: sticky;
     top: 0;
     width: 100%;
     padding: 20px 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--glass);
-    backdrop-filter: blur(10px);
+    background: var(--black);
     z-index: 1000;
     border-bottom: 1px solid rgba(212, 175, 55, 0.1);
 }
@@ -355,7 +354,7 @@ input:checked + .slider:before {
     background-size: cover;
     background-position: center;
     position: relative;
-    padding-top: 120px;
+    padding: 80px 20px;
 }
 
 .sub-hero h1 {
@@ -935,11 +934,7 @@ footer {
 /* --- Mobile Optimization --- */
 @media (max-width: 992px) {
     nav {
-        position: sticky;
-        top: 0;
         padding: 15px 5%;
-        background: var(--black);
-        backdrop-filter: none;
     }
 
     .logo img {
@@ -1028,7 +1023,7 @@ footer {
 
 @media (max-width: 768px) {
     .hero {
-        padding-top: 60px;
+        padding: 60px 20px;
         height: auto;
         min-height: 80vh;
         background-position: center center;
@@ -1040,8 +1035,8 @@ footer {
 
     .sub-hero {
         height: auto;
-        min-height: 450px;
-        padding: 60px 20px;
+        min-height: 500px;
+        padding: 80px 20px;
         background-position: center center;
     }
 
