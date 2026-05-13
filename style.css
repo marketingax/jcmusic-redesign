@@ -1105,6 +1105,7 @@ footer {
 
 .student-hero h1 { font-size: 3rem; margin-bottom: 10px; }
 .student-hero .role { color: var(--gold); font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+.student-hero .btn { display: inline-block; margin-top: 30px; }
 
 .student-gallery {
     display: grid;
