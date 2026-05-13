@@ -48,6 +48,33 @@
         </div>
     </header>
 
+    <!-- Mobile Hero Text (displayed below slideshow on small screens) -->
+    <section class="mobile-hero-text">
+        <h1>Master Your Craft at the <span class="gold-text">JC Music Training House</span></h1>
+        <p>From Peabody Award-winning film scores to elite piano mentorship. We build musicians with precision, artistry, and 25+ years of excellence.</p>
+        <div class="hero-btns">
+            <a href="apply.html" class="btn btn-primary">Enroll in Mastery</a>
+            <a href="lessons.html" class="btn btn-secondary">Explore Programs</a>
+        </div>
+    </section>
+
+    <!-- Mini Moments Slideshow -->
+    <section class="moments-section">
+        <div class="container">
+            <h2 class="text-center"><span class="gold-text">Moments</span> in the Studio</h2>
+            <p class="text-center text-dim margin-bottom-40">A look inside lessons, signing, and performance.</p>
+            <div class="moments-slideshow">
+                <div class="moment-slide active" style="background-image: url('assets/IMG_0503.jpg');"></div>
+                <div class="moment-slide" style="background-image: url('assets/asset_3.jpg');"></div>
+                <div class="moment-slide" style="background-image: url('assets/DSC00638.jpeg');"></div>
+                <div class="moment-slide" style="background-image: url('assets/_J2A7987.jpg');"></div>
+                <button class="moment-arrow prev" aria-label="Previous">&#10094;</button>
+                <button class="moment-arrow next" aria-label="Next">&#10095;</button>
+                <div class="moment-dots"></div>
+            </div>
+        </div>
+    </section>
+
     <!-- Lessons Depth Section (Homepage Highlights) -->
     <section id="programs" class="content-section">
         <div class="container">
@@ -147,6 +174,33 @@
         }
 
         setInterval(nextSlide, 5000);
+
+        // Moments Mini Slideshow
+        (function() {
+            const mSlides = document.querySelectorAll('.moment-slide');
+            const dotsContainer = document.querySelector('.moment-dots');
+            let mIdx = 0;
+            if (!mSlides.length) return;
+
+            mSlides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'moment-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => go(i));
+                dotsContainer.appendChild(dot);
+            });
+            const dots = document.querySelectorAll('.moment-dot');
+
+            function go(i) {
+                mSlides[mIdx].classList.remove('active');
+                dots[mIdx].classList.remove('active');
+                mIdx = (i + mSlides.length) % mSlides.length;
+                mSlides[mIdx].classList.add('active');
+                dots[mIdx].classList.add('active');
+            }
+            document.querySelector('.moment-arrow.next').addEventListener('click', () => go(mIdx + 1));
+            document.querySelector('.moment-arrow.prev').addEventListener('click', () => go(mIdx - 1));
+            setInterval(() => go(mIdx + 1), 6000);
+        })();
 
         // Mobile Menu Toggle
         const menuToggle = document.getElementById('mobile-menu');
