@@ -1059,6 +1059,29 @@ footer {
     font-style: italic;
 }
 
+/* Schedule / Calendar Embed */
+.calendar-embed {
+    background: var(--dark-grey);
+    border: 1px solid var(--gold);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+
+.calendar-embed iframe {
+    display: block;
+    width: 100%;
+    min-height: 780px;
+    border: none;
+    border-radius: 8px;
+}
+
+@media (max-width: 768px) {
+    .calendar-embed { padding: 10px; }
+    .calendar-embed iframe { min-height: 1100px; }
+}
+
 /* Individual Student Page */
 .student-hero {
     padding: 60px 5% 40px;

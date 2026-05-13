@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schedule & Availability | JC Music Institute</title>
+    <meta name="description" content="View live availability and book your weekly piano or vocal lesson slot with JC Music Institute.">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <a href="index.html"><img src="assets/JC+MUSIC+ENTERPRISE++LOGO+.png" alt="JC Music Enterprise Logo"></a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="lessons.html">Lessons</a></li>
+            <li><a href="scoring.html">Scoring</a></li>
+            <li><a href="prime-hour.html">Prime Hour</a></li>
+            <li><a href="students.html">Students</a></li>
+            <li><a href="schedule.html" class="active">Schedule</a></li>
+            <li><a href="apply.html" class="btn-enroll">Enroll Now</a></li>
+        </ul>
+        <div class="menu-toggle" id="mobile-menu">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
+
+    <header class="sub-hero" style="background-image: linear-gradient(rgba(10,10,10,0.75), rgba(10,10,10,0.75)), url('assets/asset_5.jpg');">
+        <div class="hero-content">
+            <h1>Lesson <span class="gold-text">Availability</span></h1>
+            <p>See open slots in real time. Booked times are blocked automatically — pick what works for you.</p>
+        </div>
+    </header>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="text-center margin-bottom-40">
+                <h2>Book Your <span class="gold-text">Weekly Slot</span></h2>
+                <p style="color: var(--text-dim); max-width: 700px; margin: 20px auto 0;">The calendar below shows live availability synced to our scheduling system. Times that are greyed out are already booked by current students. Choose any open slot to request that as your weekly recurring lesson time.</p>
+            </div>
+
+            <!--
+                GHL CALENDAR EMBED
+                Replace the iframe src with Jerry's GoHighLevel booking widget URL.
+                In GHL: Calendars → select calendar → Share → Embed Code → copy the src.
+                Format: https://api.leadconnectorhq.com/widget/booking/<calendar-id>
+            -->
+            <div class="calendar-embed">
+                <iframe
+                    src="https://api.leadconnectorhq.com/widget/booking/REPLACE_WITH_GHL_CALENDAR_ID"
+                    title="JC Music Lesson Booking Calendar"
+                    scrolling="no"
+                    id="ghl-calendar-iframe"
+                    style="width:100%;min-height:780px;border:none;overflow:hidden;"></iframe>
+            </div>
+            <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+
+            <div class="schedule-notes">
+                <div class="grid-3 margin-top-40">
+                    <div class="service-card">
+                        <div class="icon-gold">🗓️</div>
+                        <h3>Live Sync</h3>
+                        <p>Availability updates instantly as students book or release slots. No double-booking.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-gold">🔁</div>
+                        <h3>Weekly Recurring</h3>
+                        <p>Your selected slot becomes your standing weekly lesson time once enrollment is confirmed.</p>
+                    </div>
+                    <div class="service-card">
+                        <div class="icon-gold">📞</div>
+                        <h3>Need Help?</h3>
+                        <p>Don't see a time that works? Call <strong>(609) 920-0033</strong> and we'll find a fit.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-banner">
+        <div class="container">
+            <h2>Ready to Lock In Your Time?</h2>
+            <p>Pick your slot, then complete enrollment to confirm your weekly lesson.</p>
+            <a href="apply.html" class="btn btn-primary">Enroll Now</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <img src="assets/JC+Music+Enterprises+Blk+Logo.png" alt="JC Music Logo Black">
+                </div>
+                <p>Elevating music through quality, precision, and artistry.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Programs</h4>
+                <ul class="footer-links">
+                    <li><a href="lessons.html">Piano Mastery</a></li>
+                    <li><a href="scoring.html">Film & TV Scoring</a></li>
+                    <li><a href="prime-hour.html">The PRIME Hour</a></li>
+                    <li><a href="students.html">Students</a></li>
+                    <li><a href="schedule.html">Schedule</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Safety & Policies</h4>
+                <ul class="footer-links">
+                    <li><a href="policies.html#cancellation">Cancellation Policy</a></li>
+                    <li><a href="policies.html#income">Income Protection</a></li>
+                    <li><a href="policies.html#privacy">Privacy Policy</a></li>
+                    <li><a href="policies.html#terms">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li>info@jcmusicenterprise.com</li>
+                    <li>+1 609-920-0033</li>
+                    <li>Ewing, NJ</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 JC Music Enterprise. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
