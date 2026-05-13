@@ -28,8 +28,16 @@
         </div>
     </nav>
 
-    <!-- Sub-Hero Section -->
-    <header class="sub-hero" style="background-image: linear-gradient(rgba(10,10,10,0.4), rgba(10,10,10,0.4)), url('assets/asset_3.jpg');">
+    <!-- Sub-Hero Slideshow (placeholder — will swap to montage video) -->
+    <header class="hero hero-60">
+        <div class="hero-slideshow">
+            <div class="hero-slide active" style="background-image: url('assets/asset_3.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('assets/asset_5.jpg');"></div>
+            <div class="hero-slide" style="background-image: url('assets/DSC00685.jpeg');"></div>
+            <div class="hero-slide" style="background-image: url('assets/DSC00726.jpeg');"></div>
+            <div class="hero-slide" style="background-image: url('assets/_J2A7911.jpg');"></div>
+        </div>
+        <div class="hero-overlay"></div>
         <div class="hero-content">
             <h1>Expert <span class="gold-text">Music Education</span></h1>
             <p>Personalized piano mentorship tailored to your unique learning style.</p>
@@ -211,6 +219,18 @@
     </footer>
 
     <script>
+        // Hero Slideshow
+        (function() {
+            const slides = document.querySelectorAll('.hero-slide');
+            if (!slides.length) return;
+            let current = 0;
+            setInterval(() => {
+                slides[current].classList.remove('active');
+                current = (current + 1) % slides.length;
+                slides[current].classList.add('active');
+            }, 5000);
+        })();
+
         // Pricing Toggle Logic
         const toggle = document.getElementById('session-toggle');
         const priceStarter = document.getElementById('price-starter');
