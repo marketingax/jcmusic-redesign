@@ -134,6 +134,7 @@ button{font-family:inherit;cursor:pointer;}
       <div class="nav-item" data-view="contacts"><span class="ic">👤</span> Contacts</div>
       <div class="nav-item" data-view="conversations"><span class="ic">💬</span> Conversations</div>
       <div class="nav-item" data-view="pipeline"><span class="ic">📊</span> Pipeline</div>
+      <div class="nav-item" data-view="payments"><span class="ic">💳</span> Payments</div>
       <div class="nav-item" data-view="invoices"><span class="ic">💵</span> Invoices</div>
     </div>
     <div class="logout"><button class="btn-out" id="logoutBtn">Sign Out</button></div>
@@ -193,7 +194,7 @@ function fmtDateOnly(v){
 const esc = (s)=> String(s==null?'':s).replace(/[&<>"]/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function pillClass(s){
   s=(s||'').toLowerCase();
-  if(['paid','confirmed','won'].includes(s)) return 'paid';
+  if(['paid','confirmed','won','succeeded','active'].includes(s)) return 'paid';
   if(['void','cancelled','canceled','declined','lost'].includes(s)) return 'void';
   if(['due','sent','unpaid','partially_paid','open'].includes(s)) return 'due';
   return 'other';
@@ -202,7 +203,7 @@ const loading = ()=> content.innerHTML='<div class="loading">Loading…</div>';
 
 /* ---------- views ---------- */
 let current='overview';
-const titles={overview:'Overview',appointments:'Appointments',contacts:'Contacts',conversations:'Conversations',pipeline:'Pipeline',invoices:'Invoices'};
+const titles={overview:'Overview',appointments:'Appointments',contacts:'Contacts',conversations:'Conversations',pipeline:'Pipeline',payments:'Payments',invoices:'Invoices'};
 
 document.querySelectorAll('.nav-item').forEach(n=>{
   n.addEventListener('click',()=>render(n.dataset.view));
@@ -214,7 +215,8 @@ function render(view){
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
   $('#viewTitle').textContent=titles[view]||view;
   ({overview:viewOverview,appointments:viewAppointments,contacts:viewContacts,
-    conversations:viewConversations,pipeline:viewPipeline,invoices:viewInvoices}[view]||viewOverview)();
+    conversations:viewConversations,pipeline:viewPipeline,payments:viewPayments,
+    invoices:viewInvoices}[view]||viewOverview)();
 }
 
 async function viewOverview(){
@@ -334,6 +336,30 @@ async function viewPipeline(){
     }
     content.innerHTML=html||'<div class="empty">No pipelines.</div>';
   }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load pipeline.</div>'; }
+}
+
+async function viewPayments(){
+  loading();
+  try{
+    const d = await api('/api/payments?limit=100');
+    const list = d.data||[];
+    if(!list.length){ content.innerHTML='<div class="panel"><h3>Payments</h3><div class="empty">No transactions yet.</div></div>'; return; }
+    const ok = list.filter(t=>t.status==='succeeded');
+    const total = ok.reduce((s,t)=>s+(Number(t.amount)||0),0);
+    content.innerHTML =
+      '<div class="stat-grid">'+
+        stat('Transactions', list.length)+
+        stat('Collected', fmtMoney(total), ok.length+' succeeded')+
+      '</div>'+
+      '<div class="panel"><h3>Payment Transactions</h3><table class="tbl"><thead><tr><th>Contact</th><th>For</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>'+
+      list.map(t=>(
+        '<tr><td>'+esc(t.contactName||'—')+'</td>'+
+        '<td class="muted">'+esc(t.entitySourceName||t.entityType||'—')+'</td>'+
+        '<td>'+fmtMoney(t.amount)+' <span class="muted">'+esc((t.currency||'').toUpperCase())+'</span></td>'+
+        '<td><span class="pill '+pillClass(t.status)+'">'+esc(t.status||'—')+'</span></td>'+
+        '<td class="muted">'+fmtDateOnly(t.createdAt||t.dateAdded)+'</td></tr>'
+      )).join('')+'</tbody></table></div>';
+  }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load payments.</div>'; }
 }
 
 async function viewInvoices(){
