@@ -1099,11 +1099,17 @@ footer {
 
 /* Student Performance Videos */
 .perf-videos {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+    gap: 28px;
+}
+
+@media (max-width: 600px) {
+    .perf-videos {
+        grid-template-columns: 1fr;
+    }
 }
 
 .perf-videos video {
