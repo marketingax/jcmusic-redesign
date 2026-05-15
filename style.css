@@ -1059,6 +1059,44 @@ footer {
     font-style: italic;
 }
 
+/* Social Links */
+.social-links {
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+}
+
+.social-links svg {
+    width: 18px;
+    height: 18px;
+    fill: var(--gold);
+    transition: var(--transition);
+}
+
+.social-links a:hover svg {
+    fill: var(--black);
+}
+
+@media (max-width: 768px) {
+    .social-links { justify-content: center; }
+}
+
 /* Schedule / Calendar Embed */
 .calendar-embed {
     background: var(--dark-grey);
