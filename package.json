@@ -1,0 +1,9 @@
+{
+  "name": "jcmusic-redesign",
+  "version": "1.0.0",
+  "private": true,
+  "description": "JC Music Enterprise website + GHL-powered admin dashboard",
+  "engines": {
+    "node": ">=18"
+  }
+}

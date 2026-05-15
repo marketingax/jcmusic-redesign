@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>JC Music | Admin Dashboard</title>
+<link rel="icon" type="image/png" href="../favicon.png">
+<style>
+:root{
+  --gold:#D4AF37;--gold-bright:#FFD700;--black:#0A0A0A;--dark:#1A1A1A;
+  --grey:#333;--card:#161616;--text:#F5F5F5;--dim:#A0A0A0;--line:rgba(212,175,55,.15);
+  --green:#2ecc71;--red:#ff5a5a;--blue:#5b9bd5;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--black);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.5;}
+a{color:var(--gold);}
+button{font-family:inherit;cursor:pointer;}
+.hidden{display:none!important;}
+
+/* ---- Login ---- */
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.login-card{background:var(--dark);border:1px solid var(--gold);border-radius:14px;padding:48px 40px;max-width:380px;width:100%;text-align:center;}
+.login-card img{height:64px;margin-bottom:20px;}
+.login-card h1{font-size:1.4rem;margin-bottom:6px;}
+.login-card p{color:var(--dim);font-size:.9rem;margin-bottom:26px;}
+.login-card input{width:100%;padding:13px;background:var(--black);border:1px solid var(--grey);border-radius:7px;color:var(--text);font-size:1rem;margin-bottom:14px;}
+.login-card input:focus{outline:none;border-color:var(--gold);}
+.btn-gold{background:linear-gradient(45deg,var(--gold),var(--gold-bright));color:var(--black);border:none;padding:13px 22px;border-radius:7px;font-weight:700;width:100%;font-size:1rem;}
+.btn-gold:hover{filter:brightness(1.08);}
+.login-err{color:var(--red);font-size:.85rem;min-height:20px;margin-top:6px;}
+
+/* ---- Shell ---- */
+.shell{display:flex;min-height:100vh;}
+.sidebar{width:230px;background:var(--dark);border-right:1px solid var(--line);padding:24px 0;position:fixed;height:100vh;overflow-y:auto;}
+.sidebar .brand{display:flex;align-items:center;gap:10px;padding:0 22px 22px;border-bottom:1px solid var(--line);margin-bottom:14px;}
+.sidebar .brand img{height:40px;}
+.sidebar .brand span{font-weight:700;font-size:.95rem;}
+.nav-item{display:flex;align-items:center;gap:12px;padding:12px 22px;color:var(--dim);font-weight:600;font-size:.92rem;border-left:3px solid transparent;}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,.03);}
+.nav-item.active{color:var(--gold);border-left-color:var(--gold);background:rgba(212,175,55,.07);}
+.nav-item .ic{width:18px;text-align:center;}
+.sidebar .logout{margin:18px 22px 0;}
+.btn-out{background:transparent;border:1px solid var(--grey);color:var(--dim);padding:9px;border-radius:6px;width:100%;font-weight:600;}
+.btn-out:hover{border-color:var(--red);color:var(--red);}
+
+.main{margin-left:230px;flex:1;padding:30px 36px;max-width:100%;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;}
+.topbar h2{font-size:1.5rem;}
+.topbar .refresh{background:transparent;border:1px solid var(--grey);color:var(--dim);padding:8px 16px;border-radius:6px;font-weight:600;font-size:.85rem;}
+.topbar .refresh:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ---- Cards ---- */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin-bottom:30px;}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;}
+.stat .label{color:var(--dim);font-size:.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+.stat .value{font-size:2rem;font-weight:700;color:var(--gold);}
+.stat .sub{font-size:.8rem;color:var(--dim);margin-top:4px;}
+
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:24px;}
+.panel h3{font-size:1.05rem;margin-bottom:16px;color:var(--gold);}
+
+/* ---- Table ---- */
+.tbl{width:100%;border-collapse:collapse;font-size:.88rem;}
+.tbl th{text-align:left;color:var(--dim);text-transform:uppercase;font-size:.72rem;letter-spacing:1px;padding:10px 12px;border-bottom:1px solid var(--line);}
+.tbl td{padding:11px 12px;border-bottom:1px solid rgba(255,255,255,.05);}
+.tbl tr:hover td{background:rgba(255,255,255,.02);}
+.tbl .muted{color:var(--dim);}
+
+.pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:capitalize;}
+.pill.paid,.pill.confirmed{background:rgba(46,204,113,.15);color:var(--green);}
+.pill.due,.pill.sent,.pill.unpaid{background:rgba(212,175,55,.15);color:var(--gold);}
+.pill.void,.pill.cancelled,.pill.declined{background:rgba(255,90,90,.15);color:var(--red);}
+.pill.other{background:rgba(91,155,213,.15);color:var(--blue);}
+
+.search{padding:10px 14px;background:var(--black);border:1px solid var(--grey);border-radius:7px;color:var(--text);font-size:.9rem;width:280px;max-width:100%;}
+.search:focus{outline:none;border-color:var(--gold);}
+
+.loading,.empty{padding:30px;text-align:center;color:var(--dim);}
+.err-box{background:rgba(255,90,90,.1);border:1px solid var(--red);color:#ffb3b3;padding:14px 16px;border-radius:8px;font-size:.86rem;margin-bottom:18px;}
+
+.appt-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.appt-row:last-child{border-bottom:none;}
+.appt-when{color:var(--gold);font-weight:700;font-size:.85rem;}
+.appt-name{font-weight:600;}
+.appt-sub{color:var(--dim);font-size:.8rem;}
+
+.conv-item{padding:13px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.conv-item:last-child{border-bottom:none;}
+.conv-top{display:flex;justify-content:space-between;gap:10px;}
+.conv-name{font-weight:600;}
+.conv-date{color:var(--dim);font-size:.78rem;white-space:nowrap;}
+.conv-body{color:var(--dim);font-size:.84rem;margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+.stage-col h4{font-size:.85rem;color:var(--gold);margin-bottom:8px;}
+.pipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;}
+.stage-box{background:var(--black);border:1px solid var(--line);border-radius:8px;padding:12px;}
+.stage-count{font-size:1.6rem;font-weight:700;color:var(--gold);}
+
+@media(max-width:760px){
+  .sidebar{width:100%;height:auto;position:relative;}
+  .main{margin-left:0;padding:20px 16px;}
+  .shell{flex-direction:column;}
+  .nav-row{display:flex;flex-wrap:wrap;}
+  .nav-item{border-left:none;border-bottom:3px solid transparent;flex:1;justify-content:center;padding:12px 8px;}
+  .nav-item.active{border-left:none;border-bottom-color:var(--gold);}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginView" class="login-wrap">
+  <form class="login-card" id="loginForm">
+    <img src="../assets/JC+MUSIC+ENTERPRISE++LOGO+.png" alt="JC Music">
+    <h1>Admin Dashboard</h1>
+    <p>Enter the admin password to continue.</p>
+    <input type="password" id="pw" placeholder="Admin password" autocomplete="current-password" required>
+    <button class="btn-gold" type="submit">Sign In</button>
+    <div class="login-err" id="loginErr"></div>
+  </form>
+</div>
+
+<!-- DASHBOARD -->
+<div id="appView" class="shell hidden">
+  <aside class="sidebar">
+    <div class="brand">
+      <img src="../assets/JC+MUSIC+ENTERPRISE++LOGO+.png" alt="JC">
+      <span>Admin</span>
+    </div>
+    <div class="nav-row">
+      <div class="nav-item active" data-view="overview"><span class="ic">▦</span> Overview</div>
+      <div class="nav-item" data-view="appointments"><span class="ic">🗓</span> Appointments</div>
+      <div class="nav-item" data-view="contacts"><span class="ic">👤</span> Contacts</div>
+      <div class="nav-item" data-view="conversations"><span class="ic">💬</span> Conversations</div>
+      <div class="nav-item" data-view="pipeline"><span class="ic">📊</span> Pipeline</div>
+      <div class="nav-item" data-view="invoices"><span class="ic">💵</span> Invoices</div>
+    </div>
+    <div class="logout"><button class="btn-out" id="logoutBtn">Sign Out</button></div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <h2 id="viewTitle">Overview</h2>
+      <button class="refresh" id="refreshBtn">↻ Refresh</button>
+    </div>
+    <div id="content"></div>
+  </main>
+</div>
+
+<script>
+const $ = (s)=>document.querySelector(s);
+const content = $('#content');
+
+/* ---------- auth ---------- */
+async function checkSession(){
+  try{
+    const r = await fetch('/api/session');
+    const d = await r.json();
+    return d.authenticated;
+  }catch{ return false; }
+}
+function showLogin(){ $('#loginView').classList.remove('hidden'); $('#appView').classList.add('hidden'); }
+function showApp(){ $('#loginView').classList.add('hidden'); $('#appView').classList.remove('hidden'); render('overview'); }
+
+$('#loginForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  $('#loginErr').textContent='';
+  const r = await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:$('#pw').value})});
+  if(r.ok){ showApp(); }
+  else{ const d=await r.json().catch(()=>({})); $('#loginErr').textContent = d.error||'Login failed'; }
+});
+$('#logoutBtn').addEventListener('click', async ()=>{ await fetch('/api/logout',{method:'POST'}); showLogin(); });
+
+/* ---------- helpers ---------- */
+async function api(path){
+  const r = await fetch(path);
+  if(r.status===401){ showLogin(); throw new Error('unauthorized'); }
+  return r.json();
+}
+const fmtMoney = (n)=> '$'+(Number(n)||0).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2});
+function fmtDate(v){
+  if(!v) return '—';
+  const d = new Date(typeof v==='number'?v:v);
+  if(isNaN(d)) return '—';
+  return d.toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'});
+}
+function fmtDateOnly(v){
+  if(!v) return '—';
+  const d = new Date(v); if(isNaN(d)) return '—';
+  return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+const esc = (s)=> String(s==null?'':s).replace(/[&<>"]/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function pillClass(s){
+  s=(s||'').toLowerCase();
+  if(['paid','confirmed','won'].includes(s)) return 'paid';
+  if(['void','cancelled','canceled','declined','lost'].includes(s)) return 'void';
+  if(['due','sent','unpaid','partially_paid','open'].includes(s)) return 'due';
+  return 'other';
+}
+const loading = ()=> content.innerHTML='<div class="loading">Loading…</div>';
+
+/* ---------- views ---------- */
+let current='overview';
+const titles={overview:'Overview',appointments:'Appointments',contacts:'Contacts',conversations:'Conversations',pipeline:'Pipeline',invoices:'Invoices'};
+
+document.querySelectorAll('.nav-item').forEach(n=>{
+  n.addEventListener('click',()=>render(n.dataset.view));
+});
+$('#refreshBtn').addEventListener('click',()=>render(current));
+
+function render(view){
+  current=view;
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
+  $('#viewTitle').textContent=titles[view]||view;
+  ({overview:viewOverview,appointments:viewAppointments,contacts:viewContacts,
+    conversations:viewConversations,pipeline:viewPipeline,invoices:viewInvoices}[view]||viewOverview)();
+}
+
+async function viewOverview(){
+  loading();
+  try{
+    const s = await api('/api/summary');
+    let html = '<div class="stat-grid">'+
+      stat('Total Contacts', s.contactsTotal) +
+      stat('Upcoming (7 days)', s.upcomingAppointments, 'appointments') +
+      stat('Open Opportunities', s.openOpportunities) +
+      stat('Revenue Collected', fmtMoney(s.revenuePaid), s.invoicesPaid+' paid invoices') +
+      stat('Outstanding', fmtMoney(s.revenueOutstanding), 'unpaid invoices') +
+    '</div>';
+    if(!s.paymentsScopeOk){
+      html += '<div class="err-box">Invoices/payments could not be loaded. Add the Payments read scope to the GHL Private Integration token.</div>';
+    }
+    html += '<div class="panel"><h3>Next Appointments</h3><div id="ovAppts" class="loading">Loading…</div></div>';
+    content.innerHTML = html;
+    const a = await api('/api/appointments?days=14&back=0');
+    renderApptList(a.events||[], $('#ovAppts'), 6);
+  }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load overview.</div>'; }
+}
+function stat(label,value,sub){
+  return '<div class="stat"><div class="label">'+esc(label)+'</div><div class="value">'+esc(value)+
+    '</div>'+(sub?'<div class="sub">'+esc(sub)+'</div>':'')+'</div>';
+}
+
+function renderApptList(events, el, limit){
+  if(!events.length){ el.innerHTML='<div class="empty">No appointments scheduled.</div>'; return; }
+  const sorted = events.slice().sort((a,b)=>new Date(a.startTime)-new Date(b.startTime));
+  el.innerHTML = sorted.slice(0,limit||sorted.length).map(ev=>(
+    '<div class="appt-row"><div><div class="appt-name">'+esc(ev.title||'Appointment')+'</div>'+
+    '<div class="appt-sub">'+esc(ev.appointmentStatus||'')+(ev.isRecurring?' · recurring':'')+'</div></div>'+
+    '<div class="appt-when">'+fmtDate(ev.startTime)+'</div></div>'
+  )).join('');
+}
+
+async function viewAppointments(){
+  loading();
+  try{
+    const a = await api('/api/appointments?days=45&back=3');
+    const el = document.createElement('div');
+    content.innerHTML='<div class="panel"><h3>Appointments — next 45 days</h3><div id="apList"></div></div>';
+    renderApptList(a.events||[], $('#apList'));
+  }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load appointments.</div>'; }
+}
+
+let contactsCache=[];
+async function viewContacts(){
+  loading();
+  try{
+    const d = await api('/api/contacts?limit=100');
+    contactsCache = d.contacts||[];
+    content.innerHTML =
+      '<div class="panel"><h3>Contacts ('+contactsCache.length+')</h3>'+
+      '<input class="search" id="cSearch" placeholder="Search name, email, phone…">'+
+      '<div id="cTable" style="margin-top:14px;"></div></div>';
+    drawContacts(contactsCache);
+    $('#cSearch').addEventListener('input',(e)=>{
+      const q=e.target.value.toLowerCase();
+      drawContacts(contactsCache.filter(c=>(
+        (c.contactName||'')+(c.email||'')+(c.phone||'')).toLowerCase().includes(q)));
+    });
+  }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load contacts.</div>'; }
+}
+function drawContacts(list){
+  if(!list.length){ $('#cTable').innerHTML='<div class="empty">No contacts.</div>'; return; }
+  $('#cTable').innerHTML='<table class="tbl"><thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Type</th><th>Added</th></tr></thead><tbody>'+
+    list.map(c=>(
+      '<tr><td>'+esc(c.contactName||((c.firstName||'')+' '+(c.lastName||'')).trim()||'—')+'</td>'+
+      '<td class="muted">'+esc(c.email||'—')+'</td>'+
+      '<td class="muted">'+esc(c.phone||'—')+'</td>'+
+      '<td><span class="pill other">'+esc(c.type||'lead')+'</span></td>'+
+      '<td class="muted">'+fmtDateOnly(c.dateAdded)+'</td></tr>'
+    )).join('')+'</tbody></table>';
+}
+
+async function viewConversations(){
+  loading();
+  try{
+    const d = await api('/api/conversations?limit=40');
+    const list = d.conversations||[];
+    if(!list.length){ content.innerHTML='<div class="panel"><h3>Conversations</h3><div class="empty">No conversations.</div></div>'; return; }
+    content.innerHTML='<div class="panel"><h3>Recent Conversations</h3>'+
+      list.map(c=>(
+        '<div class="conv-item"><div class="conv-top">'+
+        '<span class="conv-name">'+esc(c.contactName||c.fullName||'Unknown')+'</span>'+
+        '<span class="conv-date">'+fmtDate(c.lastMessageDate)+'</span></div>'+
+        '<div class="conv-body">'+esc((c.lastMessageBody||'').replace(/\s+/g,' ').slice(0,140))+'</div></div>'
+      )).join('')+'</div>';
+  }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load conversations.</div>'; }
+}
+
+async function viewPipeline(){
+  loading();
+  try{
+    const d = await api('/api/opportunities');
+    const opps = d.opportunities||[];
+    let html='';
+    (d.pipelines||[]).forEach(p=>{
+      html+='<div class="panel"><h3>'+esc(p.name)+'</h3><div class="pipe-grid">';
+      (p.stages||[]).forEach(st=>{
+        const n = opps.filter(o=>o.pipelineStageId===st.id).length;
+        html+='<div class="stage-box"><div class="stage-count">'+n+'</div><h4>'+esc(st.name)+'</h4></div>';
+      });
+      html+='</div></div>';
+    });
+    if(opps.length){
+      html+='<div class="panel"><h3>Opportunities</h3><table class="tbl"><thead><tr><th>Name</th><th>Stage</th><th>Status</th><th>Value</th></tr></thead><tbody>'+
+        opps.map(o=>(
+          '<tr><td>'+esc(o.name||'—')+'</td><td class="muted">'+esc(o.pipelineStageId||'—')+'</td>'+
+          '<td><span class="pill '+pillClass(o.status)+'">'+esc(o.status||'open')+'</span></td>'+
+          '<td>'+fmtMoney(o.monetaryValue)+'</td></tr>'
+        )).join('')+'</tbody></table></div>';
+    } else {
+      html+='<div class="panel"><div class="empty">No opportunities yet.</div></div>';
+    }
+    content.innerHTML=html||'<div class="empty">No pipelines.</div>';
+  }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load pipeline.</div>'; }
+}
+
+async function viewInvoices(){
+  loading();
+  try{
+    const d = await api('/api/invoices?limit=100');
+    const list = d.invoices||[];
+    if(!list.length){ content.innerHTML='<div class="panel"><h3>Invoices</h3><div class="empty">No invoices found. (If this is unexpected, confirm the Payments scope on the GHL token.)</div></div>'; return; }
+    const paid = list.filter(i=>i.status==='paid').reduce((s,i)=>s+(Number(i.amountPaid)||0),0);
+    content.innerHTML =
+      '<div class="stat-grid">'+
+        stat('Invoices', list.length)+
+        stat('Collected', fmtMoney(paid))+
+      '</div>'+
+      '<div class="panel"><h3>All Invoices</h3><table class="tbl"><thead><tr><th>Invoice</th><th>Status</th><th>Total</th><th>Paid</th><th>Issued</th></tr></thead><tbody>'+
+      list.map(i=>(
+        '<tr><td>'+esc(i.name||i.invoiceNumber||i._id||'—')+'</td>'+
+        '<td><span class="pill '+pillClass(i.status)+'">'+esc(i.status||'—')+'</span></td>'+
+        '<td>'+fmtMoney(i.total!=null?i.total:i.amountDue)+'</td>'+
+        '<td>'+fmtMoney(i.amountPaid)+'</td>'+
+        '<td class="muted">'+fmtDateOnly(i.issueDate||i.createdAt)+'</td></tr>'
+      )).join('')+'</tbody></table></div>';
+  }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load invoices.</div>'; }
+}
+
+/* ---------- boot ---------- */
+(async()=>{
+  if(await checkSession()) showApp();
+  else showLogin();
+})();
+</script>
+</body>
+</html>
