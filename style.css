@@ -1172,15 +1172,16 @@ footer {
 
 .student-gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
     margin-top: 40px;
 }
 
 .student-gallery img {
     width: 100%;
-    height: 250px;
-    object-fit: cover;
+    height: 380px;
+    object-fit: contain;
+    background: #000;
     border-radius: 10px;
     border: 1px solid rgba(212, 175, 55, 0.2);
 }
