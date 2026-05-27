@@ -144,7 +144,67 @@ button{font-family:inherit;cursor:pointer;}
   <main class="main">
     <div class="topbar">
       <h2 id="viewTitle">Overview</h2>
-      <button class="refresh" id="refreshBtn">↻ Refresh</button>
+      <div style="display:flex;gap:8px;">
+        <button class="refresh" id="recordPayBtn" style="border-color:var(--gold);color:var(--gold);font-weight:700;">+ Record Payment</button>
+        <button class="refresh" id="refreshBtn">↻ Refresh</button>
+      </div>
+    </div>
+
+    <!-- Manual payment modal -->
+    <div id="payModal" class="hidden" style="position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;">
+      <div style="background:var(--dark);border:1px solid var(--gold);border-radius:12px;padding:26px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;">
+        <h3 style="color:var(--gold);margin-bottom:14px;">Record Manual Payment</h3>
+        <form id="payForm" style="display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <label style="font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;">Client</label>
+            <input id="pf_contact" class="search" style="width:100%;" placeholder="Type a name to search…" autocomplete="off" required>
+            <div id="pf_results" style="background:var(--black);border:1px solid var(--line);border-radius:6px;margin-top:4px;max-height:160px;overflow-y:auto;display:none;"></div>
+            <input type="hidden" id="pf_contactId">
+          </div>
+          <div>
+            <label style="font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;">Invoice Name <span style="color:var(--gold);">(IMPORTANT: include the plan length)</span></label>
+            <input id="pf_name" class="search" style="width:100%;" placeholder='e.g. "Jesiah White 1 Month" or "Zayla Gordon 6 Months"' required>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+            <div>
+              <label style="font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;">Amount ($)</label>
+              <input id="pf_amount" class="search" style="width:100%;" type="number" min="1" step="0.01" required>
+            </div>
+            <div>
+              <label style="font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;">Date Paid</label>
+              <input id="pf_date" class="search" style="width:100%;" type="date" required>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+            <label style="font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;grid-column:1/-1;">Plan length quick-add</label>
+            <button type="button" class="refresh plen" data-plen="1 Month">1 Month</button>
+            <button type="button" class="refresh plen" data-plen="3 Months">3 Months</button>
+            <button type="button" class="refresh plen" data-plen="6 Months">6 Months</button>
+            <button type="button" class="refresh plen" data-plen="Annual">Annual</button>
+          </div>
+          <div>
+            <label style="font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;">Payment Method</label>
+            <select id="pf_method" class="search" style="width:100%;">
+              <option value="zelle">Zelle</option>
+              <option value="cash">Cash</option>
+              <option value="check">Check</option>
+              <option value="venmo">Venmo</option>
+              <option value="cashapp">CashApp</option>
+              <option value="card">Card (manual)</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.78rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;">Notes (optional)</label>
+            <input id="pf_notes" class="search" style="width:100%;" placeholder="e.g. confirmation #, who paid…">
+          </div>
+          <div id="pf_err" style="color:var(--red);font-size:.85rem;min-height:18px;"></div>
+          <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:8px;">
+            <button type="button" class="refresh" id="pf_cancel">Cancel</button>
+            <button type="submit" class="btn-gold" id="pf_submit" style="width:auto;padding:10px 22px;">Record Payment</button>
+          </div>
+        </form>
+      </div>
     </div>
     <div id="content"></div>
   </main>
@@ -211,6 +271,87 @@ document.querySelectorAll('.nav-item').forEach(n=>{
 });
 $('#refreshBtn').addEventListener('click',()=>render(current));
 
+/* ---------- manual payment modal ---------- */
+function openPayModal(prefill={}){
+  $('#pf_err').textContent='';
+  $('#pf_contact').value=prefill.contactName||'';
+  $('#pf_contactId').value=prefill.contactId||'';
+  $('#pf_name').value=prefill.name||'';
+  $('#pf_amount').value=prefill.amount||'';
+  $('#pf_date').value=(new Date()).toISOString().slice(0,10);
+  $('#pf_method').value='zelle';
+  $('#pf_notes').value='';
+  $('#pf_results').style.display='none';
+  $('#payModal').classList.remove('hidden');
+  setTimeout(()=>$('#pf_contact').focus(),50);
+}
+function closePayModal(){ $('#payModal').classList.add('hidden'); }
+$('#recordPayBtn').addEventListener('click',()=>openPayModal());
+$('#pf_cancel').addEventListener('click',closePayModal);
+$('#payModal').addEventListener('click',(e)=>{ if(e.target.id==='payModal') closePayModal(); });
+
+/* contact search inside modal */
+let pfSearchTimer=null;
+$('#pf_contact').addEventListener('input',(e)=>{
+  $('#pf_contactId').value='';
+  const q=e.target.value.trim();
+  clearTimeout(pfSearchTimer);
+  if(q.length<2){ $('#pf_results').style.display='none'; return; }
+  pfSearchTimer=setTimeout(async()=>{
+    try{
+      const d=await api('/api/contacts?query='+encodeURIComponent(q)+'&limit=10');
+      const list=d.contacts||[];
+      if(!list.length){ $('#pf_results').innerHTML='<div style="padding:10px;color:var(--dim);font-size:.85rem;">No matches</div>'; $('#pf_results').style.display='block'; return; }
+      $('#pf_results').innerHTML=list.map(c=>{
+        const nm=c.contactName||((c.firstName||'')+' '+(c.lastName||'')).trim()||c.email||'—';
+        return '<div class="pf-pick" data-cid="'+esc(c.id)+'" data-name="'+esc(nm)+'" style="padding:9px 12px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.05);font-size:.88rem;"><strong>'+esc(nm)+'</strong> <span class="muted">'+esc(c.email||c.phone||'')+'</span></div>';
+      }).join('');
+      $('#pf_results').style.display='block';
+      document.querySelectorAll('.pf-pick').forEach(el=>el.addEventListener('click',()=>{
+        $('#pf_contact').value=el.dataset.name;
+        $('#pf_contactId').value=el.dataset.cid;
+        $('#pf_results').style.display='none';
+        // Auto-suggest invoice name if blank
+        if(!$('#pf_name').value) $('#pf_name').value=el.dataset.name+' ';
+        $('#pf_name').focus();
+      }));
+    }catch{}
+  },220);
+});
+
+/* plan-length buttons append to invoice name */
+document.querySelectorAll('.plen').forEach(b=>b.addEventListener('click',()=>{
+  const v=$('#pf_name').value.replace(/\s*\d+\s*(month|months|mo)s?\b/ig,'').replace(/\s*annual\b/ig,'').trim();
+  $('#pf_name').value=(v?v+' ':'')+b.dataset.plen;
+}));
+
+/* submit */
+$('#payForm').addEventListener('submit',async(e)=>{
+  e.preventDefault();
+  const err=$('#pf_err'); err.textContent='';
+  const cid=$('#pf_contactId').value;
+  if(!cid){ err.textContent='Pick a client from the search results.'; return; }
+  const payload={
+    contactId:cid,
+    name:$('#pf_name').value.trim(),
+    amount:Number($('#pf_amount').value),
+    method:$('#pf_method').value,
+    notes:$('#pf_notes').value.trim(),
+    paidAt:$('#pf_date').value,
+  };
+  const btn=$('#pf_submit'); btn.disabled=true; btn.textContent='Recording…';
+  try{
+    const r=await fetch('/api/admin/record-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const d=await r.json();
+    if(!r.ok){ err.textContent=d.error+(d.detail&&d.detail.message?(': '+(Array.isArray(d.detail.message)?d.detail.message.join(', '):d.detail.message)):''); btn.disabled=false; btn.textContent='Record Payment'; return; }
+    closePayModal();
+    alert(d.message||'Payment recorded.');
+    render(current); // refresh current view
+  }catch(ex){
+    err.textContent='Network error.'; btn.disabled=false; btn.textContent='Record Payment';
+  }
+});
+
 function render(view){
   current=view;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
@@ -268,7 +409,10 @@ async function viewOverdue(){
       '<td>'+r.coverageDays+' days</td>'+
       '<td class="muted">'+fmtDay(r.coverageEnd)+'</td>'+
       '<td>'+badge(r)+'</td>'+
-      '<td style="text-align:right;"><button class="refresh view-as" data-cid="'+esc(r.contactId)+'" data-name="'+esc(r.contactName)+'" style="padding:6px 10px;font-size:.78rem;">View Portal ↗</button></td></tr>'
+      '<td style="text-align:right;white-space:nowrap;">'+
+        '<button class="refresh od-pay" data-cid="'+esc(r.contactId)+'" data-name="'+esc(r.contactName)+'" data-last="'+esc(r.lastInvoiceName||'')+'" data-amt="'+(r.lastAmount||'')+'" style="padding:6px 10px;font-size:.78rem;border-color:var(--gold);color:var(--gold);">+ Pay</button> '+
+        '<button class="refresh view-as" data-cid="'+esc(r.contactId)+'" data-name="'+esc(r.contactName)+'" style="padding:6px 10px;font-size:.78rem;">Portal ↗</button>'+
+      '</td></tr>'
     );
     const headers = '<thead><tr><th>Client</th><th>Last Invoice</th><th>Amount</th><th>Paid</th><th>Plan</th><th>Coverage Ends</th><th>Status</th><th></th></tr></thead>';
     const tbl = (list, badge) => '<table class="tbl">'+headers+'<tbody>'+list.map(r=>row(r,badge)).join('')+'</tbody></table>';
@@ -290,6 +434,7 @@ async function viewOverdue(){
     html += '<p class="muted" style="font-size:.8rem;">Coverage is inferred from each invoice/payment’s NAME (“1 Month”, “6 Months”, “Annual”, etc). Default = 30 days when no duration is in the title. If something looks off, rename the source invoice in GHL.</p>';
     content.innerHTML = html;
     document.querySelectorAll('.view-as').forEach(b=>b.addEventListener('click',()=>viewAsClient(b.dataset.cid,b.dataset.name)));
+    document.querySelectorAll('.od-pay').forEach(b=>b.addEventListener('click',()=>openPayModal({contactId:b.dataset.cid,contactName:b.dataset.name,name:b.dataset.last,amount:b.dataset.amt})));
   }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load overdue data.</div>'; }
 }
 
