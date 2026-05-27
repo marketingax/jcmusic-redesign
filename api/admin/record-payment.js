@@ -53,6 +53,7 @@ module.exports = async (req, res) => {
   const c = cRes.data.contact || {};
 
   // 2) Create the invoice.
+  // GHL requires both `businessDetails` and `items` (NOT `invoiceItems`) on create.
   const issueDate = ymd(paidAtRaw);
   const invoicePayload = {
     altId: loc,
@@ -63,6 +64,16 @@ module.exports = async (req, res) => {
     liveMode: true,
     issueDate,
     dueDate: issueDate,
+    businessDetails: {
+      name: 'JC Music Enterprise',
+      address: {
+        addressLine1: '141 Homecrest Avenue',
+        city: 'Ewing',
+        state: 'NJ',
+        countryCode: 'US',
+        postalCode: '08638',
+      },
+    },
     contactDetails: {
       id: c.id || contactId,
       name: c.contactName || `${c.firstName || ''} ${c.lastName || ''}`.trim() || c.email || 'Client',
@@ -76,7 +87,7 @@ module.exports = async (req, res) => {
         countryCode: c.country || 'US',
       } : undefined,
     },
-    invoiceItems: [{
+    items: [{
       name,
       description: userNotes || '',
       currency: 'USD',
