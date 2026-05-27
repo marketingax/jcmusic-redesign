@@ -117,6 +117,12 @@ input:checked + .slider:before{transform:translateX(22px);}
   </form>
 </div>
 
+<!-- IMPERSONATION BANNER -->
+<div id="adminBanner" class="hidden" style="background:#ff5a5a;color:#0A0A0A;text-align:center;padding:10px 16px;font-weight:700;font-size:.9rem;position:sticky;top:0;z-index:40;">
+  ADMIN VIEW — You are viewing this portal as <span id="adminAsName">a client</span>.
+  <button id="exitAdminBtn" style="margin-left:14px;background:#0A0A0A;color:#fff;border:none;padding:5px 12px;border-radius:5px;font-weight:700;cursor:pointer;font-size:.82rem;">Exit Impersonation</button>
+</div>
+
 <!-- PORTAL -->
 <div id="appView" class="wrap hidden">
   <div class="topbar">
@@ -152,8 +158,16 @@ function fmtDateTime(v){ if(!v)return'—'; const d=new Date(v); return isNaN(d)
 function pill(s){ s=(s||'').toLowerCase(); if(['paid','succeeded','active','confirmed','completed'].includes(s))return'paid'; if(['void','cancelled','canceled','noshow','no-show'].includes(s))return'void'; if(['upcoming','scheduled','new'].includes(s))return'upcoming'; return'due'; }
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),4000); }
 
-function showLogin(){ $('#loginView').classList.remove('hidden'); $('#appView').classList.add('hidden'); }
-function showApp(){ $('#loginView').classList.add('hidden'); $('#appView').classList.remove('hidden'); switchTab('overview'); }
+function showLogin(){ $('#loginView').classList.remove('hidden'); $('#appView').classList.add('hidden'); $('#adminBanner').classList.add('hidden'); }
+function showApp(){ $('#loginView').classList.add('hidden'); $('#appView').classList.remove('hidden'); maybeShowAdminBanner(); switchTab('overview'); }
+function maybeShowAdminBanner(){
+  const isAdmin=document.cookie.split(';').some(c=>c.trim().startsWith('jc_portal_admin='));
+  $('#adminBanner').classList.toggle('hidden',!isAdmin);
+}
+$('#exitAdminBtn').addEventListener('click',async()=>{
+  await fetch('/api/portal-logout',{method:'POST'});
+  window.location.href='/admin/';
+});
 
 /* login */
 $('#loginForm').addEventListener('submit',async(e)=>{
@@ -187,6 +201,7 @@ async function loadMe(){
   if(state.me) return state.me;
   state.me=await api('/api/portal/me');
   $('#who').textContent=state.me.name||state.me.email||'';
+  $('#adminAsName').textContent=state.me.name||state.me.email||'a client';
   return state.me;
 }
 
