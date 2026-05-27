@@ -4,25 +4,33 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>JC Music | Student Portal</title>
+<title>JC Music | Member Portal</title>
 <link rel="icon" type="image/png" href="../favicon.png">
 <style>
 :root{
   --gold:#D4AF37;--gold-bright:#FFD700;--black:#0A0A0A;--dark:#1A1A1A;
   --grey:#333;--card:#161616;--text:#F5F5F5;--dim:#A0A0A0;--line:rgba(212,175,55,.15);
-  --green:#2ecc71;--red:#ff5a5a;
+  --green:#2ecc71;--red:#ff5a5a;--blue:#4aa3ff;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--black);color:var(--text);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.55;}
 button{font-family:inherit;cursor:pointer;}
+input,select,textarea{font-family:inherit;}
 .hidden{display:none!important;}
+a{color:var(--gold);}
 
-.wrap{max-width:860px;margin:0 auto;padding:24px 20px 60px;}
-.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 0 24px;border-bottom:1px solid var(--line);margin-bottom:28px;}
+.wrap{max-width:960px;margin:0 auto;padding:24px 20px 60px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 0 18px;border-bottom:1px solid var(--line);margin-bottom:18px;flex-wrap:wrap;gap:12px;}
 .topbar img{height:48px;}
 .topbar .who{font-size:.85rem;color:var(--dim);}
 .btn-out{background:transparent;border:1px solid var(--grey);color:var(--dim);padding:8px 14px;border-radius:6px;font-weight:600;font-size:.82rem;}
 .btn-out:hover{border-color:var(--red);color:var(--red);}
+
+/* tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:24px;overflow-x:auto;}
+.tab{background:transparent;border:none;color:var(--dim);padding:12px 18px;font-weight:600;font-size:.9rem;border-bottom:2px solid transparent;white-space:nowrap;}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
 
 /* login */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
@@ -40,6 +48,7 @@ button{font-family:inherit;cursor:pointer;}
 .note.err{color:var(--red);}
 
 h2{font-size:1.2rem;margin-bottom:14px;color:var(--gold);}
+h3{font-size:1rem;margin-bottom:10px;color:var(--text);}
 .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px;}
 .stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;}
 .stat .label{color:var(--dim);font-size:.76rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
@@ -48,15 +57,20 @@ h2{font-size:1.2rem;margin-bottom:14px;color:var(--gold);}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;margin-bottom:22px;}
 .tbl{width:100%;border-collapse:collapse;font-size:.88rem;}
 .tbl th{text-align:left;color:var(--dim);text-transform:uppercase;font-size:.7rem;letter-spacing:1px;padding:10px 10px;border-bottom:1px solid var(--line);}
-.tbl td{padding:11px 10px;border-bottom:1px solid rgba(255,255,255,.05);}
+.tbl td{padding:11px 10px;border-bottom:1px solid rgba(255,255,255,.05);vertical-align:middle;}
 .muted{color:var(--dim);}
 .pill{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:700;text-transform:capitalize;}
-.pill.paid{background:rgba(46,204,113,.15);color:var(--green);}
+.pill.paid,.pill.active{background:rgba(46,204,113,.15);color:var(--green);}
 .pill.due{background:rgba(212,175,55,.15);color:var(--gold);}
-.pill.void{background:rgba(255,90,90,.15);color:var(--red);}
+.pill.void,.pill.cancelled{background:rgba(255,90,90,.15);color:var(--red);}
+.pill.upcoming{background:rgba(74,163,255,.15);color:var(--blue);}
 .btn-pay{background:var(--gold);color:var(--black);border:none;padding:7px 14px;border-radius:6px;font-weight:700;font-size:.78rem;}
 .btn-pay:hover{background:var(--gold-bright);}
 .btn-pay:disabled{opacity:.55;cursor:default;}
+.btn-ghost{background:transparent;border:1px solid var(--grey);color:var(--dim);padding:7px 12px;border-radius:6px;font-weight:600;font-size:.78rem;margin-left:6px;}
+.btn-ghost:hover{border-color:var(--gold);color:var(--text);}
+.btn-danger{background:transparent;border:1px solid var(--red);color:var(--red);padding:7px 14px;border-radius:6px;font-weight:600;font-size:.78rem;}
+.btn-danger:hover{background:var(--red);color:var(--black);}
 .loading,.empty{padding:24px;text-align:center;color:var(--dim);}
 
 .plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;}
@@ -64,7 +78,29 @@ h2{font-size:1.2rem;margin-bottom:14px;color:var(--gold);}
 .plan h4{color:var(--gold);margin-bottom:6px;}
 .plan .price{font-size:1.3rem;font-weight:700;margin:8px 0;}
 .plan p{font-size:.83rem;color:var(--dim);}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--dark);border:1px solid var(--gold);color:var(--text);padding:12px 20px;border-radius:8px;font-size:.88rem;}
+
+/* forms */
+.form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:.75rem;color:var(--dim);text-transform:uppercase;letter-spacing:1px;}
+.field input,.field select{padding:10px 12px;background:var(--black);border:1px solid var(--grey);border-radius:6px;color:var(--text);font-size:.92rem;}
+.field input:focus,.field select:focus{outline:none;border-color:var(--gold);}
+.field input:disabled{opacity:.55;}
+.actions{margin-top:18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+
+/* toggle */
+.toggles{display:flex;flex-direction:column;gap:14px;}
+.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:14px;background:var(--black);border:1px solid var(--line);border-radius:8px;}
+.toggle-row .tlabel{font-weight:600;}
+.toggle-row .thint{font-size:.8rem;color:var(--dim);margin-top:2px;}
+.switch{position:relative;display:inline-block;width:46px;height:24px;flex-shrink:0;}
+.switch input{opacity:0;width:0;height:0;}
+.slider{position:absolute;cursor:pointer;inset:0;background:var(--grey);border-radius:24px;transition:.2s;}
+.slider:before{position:absolute;content:"";height:18px;width:18px;left:3px;bottom:3px;background:white;border-radius:50%;transition:.2s;}
+input:checked + .slider{background:var(--gold);}
+input:checked + .slider:before{transform:translateX(22px);}
+
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--dark);border:1px solid var(--gold);color:var(--text);padding:12px 20px;border-radius:8px;font-size:.88rem;z-index:50;}
 </style>
 </head>
 <body>
@@ -73,7 +109,7 @@ h2{font-size:1.2rem;margin-bottom:14px;color:var(--gold);}
 <div id="loginView" class="login-wrap">
   <form class="login-card" id="loginForm">
     <img src="../assets/JC+MUSIC+ENTERPRISE++LOGO+.png" alt="JC Music">
-    <h1>Student Portal</h1>
+    <h1>Member Portal</h1>
     <p>Enter your email and we'll send you a secure login link.</p>
     <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
     <button class="btn-gold" type="submit" id="loginBtn">Send Login Link</button>
@@ -90,21 +126,34 @@ h2{font-size:1.2rem;margin-bottom:14px;color:var(--gold);}
       <button class="btn-out" id="logoutBtn">Sign Out</button>
     </div>
   </div>
-  <div id="content"><div class="loading">Loading…</div></div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="invoices">Invoices</button>
+    <button class="tab" data-tab="subscriptions">Membership</button>
+    <button class="tab" data-tab="schedule">Schedule</button>
+    <button class="tab" data-tab="students">My Students</button>
+    <button class="tab" data-tab="profile">Profile</button>
+    <button class="tab" data-tab="settings">Settings</button>
+  </div>
+
+  <div id="tabContent"><div class="loading">Loading…</div></div>
 </div>
 
 <div id="toast" class="toast hidden"></div>
 
 <script>
-const $=(s)=>document.querySelector(s);
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
 const esc=(s)=>String(s==null?'':s).replace(/[&<>"]/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtMoney=(n)=>'$'+(Number(n)||0).toLocaleString('en-US',{minimumFractionDigits:0,maximumFractionDigits:2});
 function fmtDate(v){ if(!v)return'—'; const d=new Date(v); return isNaN(d)?'—':d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
-function pill(s){ s=(s||'').toLowerCase(); if(['paid','succeeded'].includes(s))return'paid'; if(['void','cancelled'].includes(s))return'void'; return'due'; }
+function fmtDateTime(v){ if(!v)return'—'; const d=new Date(v); return isNaN(d)?'—':d.toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'}); }
+function pill(s){ s=(s||'').toLowerCase(); if(['paid','succeeded','active','confirmed','completed'].includes(s))return'paid'; if(['void','cancelled','canceled','noshow','no-show'].includes(s))return'void'; if(['upcoming','scheduled','new'].includes(s))return'upcoming'; return'due'; }
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.remove('hidden'); setTimeout(()=>t.classList.add('hidden'),4000); }
 
 function showLogin(){ $('#loginView').classList.remove('hidden'); $('#appView').classList.add('hidden'); }
-function showApp(){ $('#loginView').classList.add('hidden'); $('#appView').classList.remove('hidden'); loadPortal(); }
+function showApp(){ $('#loginView').classList.add('hidden'); $('#appView').classList.remove('hidden'); switchTab('overview'); }
 
 /* login */
 $('#loginForm').addEventListener('submit',async(e)=>{
@@ -122,95 +171,318 @@ $('#loginForm').addEventListener('submit',async(e)=>{
 });
 $('#logoutBtn').addEventListener('click',async()=>{ await fetch('/api/portal-logout',{method:'POST'}); showLogin(); });
 
-/* portal */
+/* api */
 async function api(path,opts){
   const r=await fetch(path,opts);
   if(r.status===401){ showLogin(); throw new Error('unauthorized'); }
-  return r.json();
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok) throw new Error(d.error||('HTTP '+r.status));
+  return d;
 }
 
-async function loadPortal(){
+/* shared state */
+const state={ me:null, invoices:null, payments:null, subs:null, appts:null, profile:null, notif:null, students:null };
+
+async function loadMe(){
+  if(state.me) return state.me;
+  state.me=await api('/api/portal/me');
+  $('#who').textContent=state.me.name||state.me.email||'';
+  return state.me;
+}
+
+/* tab switcher */
+$$('#tabs .tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+function switchTab(name){
+  $$('#tabs .tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));
+  $('#tabContent').innerHTML='<div class="loading">Loading…</div>';
+  ({overview:renderOverview,invoices:renderInvoices,subscriptions:renderSubs,schedule:renderSchedule,students:renderStudents,profile:renderProfile,settings:renderSettings}[name]||renderOverview)();
+}
+
+/* ---------- OVERVIEW ---------- */
+async function renderOverview(){
   try{
-    const [me,inv,pay]=await Promise.all([
-      api('/api/portal/me'),
-      api('/api/portal/invoices'),
-      api('/api/portal/payments'),
+    const me=await loadMe();
+    const [inv,pay,subs]=await Promise.all([
+      state.invoices?Promise.resolve({invoices:state.invoices}):api('/api/portal/invoices'),
+      state.payments?Promise.resolve({data:state.payments}):api('/api/portal/payments'),
+      state.subs?Promise.resolve({data:state.subs}):api('/api/portal/subscriptions').catch(()=>({data:[]})),
     ]);
-    $('#who').textContent=me.name||me.email||'';
-    render(me,inv.invoices||[],pay.data||[]);
-  }catch(e){
-    if(e.message!=='unauthorized') $('#content').innerHTML='<div class="empty">Could not load your portal. Please try again.</div>';
-  }
+    state.invoices=inv.invoices||[]; state.payments=pay.data||[]; state.subs=subs.data||[];
+
+    const outstanding=state.invoices.filter(i=>i.status!=='paid'&&i.status!=='void').reduce((s,i)=>s+(Number(i.total)||Number(i.amountDue)||0),0);
+    const collected=state.payments.filter(p=>p.status==='succeeded').reduce((s,p)=>s+(Number(p.amount)||0),0);
+    const activeSub=state.subs.find(s=>(s.status||'').toLowerCase()==='active');
+
+    let h='';
+    h+='<h2>Welcome back, '+esc(me.firstName||me.name||'')+'</h2>';
+    h+='<div class="stat-grid">'+
+      '<div class="stat"><div class="label">Outstanding</div><div class="value">'+fmtMoney(outstanding)+'</div></div>'+
+      '<div class="stat"><div class="label">Total Paid</div><div class="value">'+fmtMoney(collected)+'</div></div>'+
+      '<div class="stat"><div class="label">Active Membership</div><div class="value" style="font-size:1.1rem;">'+(activeSub?esc(activeSub.name||activeSub.planName||'Active'):'<span class="muted" style="font-size:.95rem;">None</span>')+'</div></div>'+
+    '</div>';
+
+    /* students */
+    if(!state.students){ try{ const s=await api('/api/portal/students'); state.students=s.students||[]; }catch{ state.students=[]; } }
+    if(state.students.length){
+      h+='<div class="panel"><h2>My Students</h2><div style="display:flex;flex-wrap:wrap;gap:10px;">';
+      state.students.forEach(st=>{
+        h+='<div style="background:var(--black);border:1px solid var(--line);border-radius:8px;padding:10px 14px;font-size:.9rem;">'+
+           '<strong style="color:var(--gold);">'+esc(st.name)+'</strong>'+
+           (st.trainingType?' <span class="muted">· '+esc(st.trainingType)+'</span>':'')+
+           '</div>';
+      });
+      h+='</div></div>';
+    }
+
+    /* next lesson */
+    if(!state.appts){ try{ const a=await api('/api/portal/appointments'); state.appts=a.events||[]; }catch{ state.appts=[]; } }
+    const next=(state.appts||[]).find(e=>new Date(e.startTime)>new Date());
+    h+='<div class="panel"><h2>Next Lesson</h2>';
+    h+=next?'<div style="font-size:1.05rem;">'+esc(next.title)+' · <span class="muted">'+fmtDateTime(next.startTime)+'</span></div>':'<div class="empty">No upcoming lessons scheduled.</div>';
+    h+='</div>';
+
+    /* quick invoice list */
+    const due=state.invoices.filter(i=>i.status!=='paid'&&i.status!=='void').slice(0,5);
+    h+='<div class="panel"><h2>Outstanding Invoices</h2>';
+    if(!due.length) h+='<div class="empty">All caught up — no invoices due.</div>';
+    else h+=invoiceTable(due);
+    h+='</div>';
+
+    /* plans */
+    h+=plansBlock();
+    $('#tabContent').innerHTML=h;
+    wireInvoiceButtons();
+  }catch(e){ if(e.message!=='unauthorized') $('#tabContent').innerHTML='<div class="empty">Could not load overview.</div>'; }
 }
 
-function render(me,invoices,payments){
-  const outstanding=invoices
-    .filter(i=>i.status!=='paid'&&i.status!=='void')
-    .reduce((s,i)=>s+(Number(i.total)||Number(i.amountDue)||0),0);
-  const collected=payments
-    .filter(p=>p.status==='succeeded')
-    .reduce((s,p)=>s+(Number(p.amount)||0),0);
+/* ---------- INVOICES ---------- */
+function invoiceTable(list){
+  let h='<table class="tbl"><thead><tr><th>Invoice</th><th>Status</th><th>Amount</th><th>Due</th><th></th></tr></thead><tbody>';
+  list.forEach(i=>{
+    const unpaid=i.status!=='paid'&&i.status!=='void';
+    h+='<tr><td>'+esc(i.name||i.invoiceNumber||'Invoice')+'</td>'+
+      '<td><span class="pill '+pill(i.status)+'">'+esc(i.status||'—')+'</span></td>'+
+      '<td>'+fmtMoney(i.total!=null?i.total:i.amountDue)+'</td>'+
+      '<td class="muted">'+fmtDate(i.dueDate)+'</td>'+
+      '<td style="text-align:right;">'+(unpaid
+        ?'<button class="btn-pay" data-pay="'+esc(i._id)+'">Pay Now</button>'+
+         '<button class="btn-ghost" data-email="'+esc(i._id)+'">Email Link</button>'
+        :'<span class="muted">Paid</span>')+
+      '</td></tr>';
+  });
+  h+='</tbody></table>';
+  return h;
+}
+async function renderInvoices(){
+  try{
+    if(!state.invoices){ const inv=await api('/api/portal/invoices'); state.invoices=inv.invoices||[]; }
+    let h='<div class="panel"><h2>My Invoices</h2>';
+    h+=state.invoices.length?invoiceTable(state.invoices):'<div class="empty">No invoices yet.</div>';
+    h+='</div>';
+    if(!state.payments){ try{ const p=await api('/api/portal/payments'); state.payments=p.data||[]; }catch{ state.payments=[]; } }
+    h+='<div class="panel"><h2>Payment History</h2>';
+    if(!state.payments.length) h+='<div class="empty">No payments recorded yet.</div>';
+    else{
+      h+='<table class="tbl"><thead><tr><th>For</th><th>Amount</th><th>Status</th><th>Date</th><th></th></tr></thead><tbody>';
+      state.payments.forEach(p=>{
+        const receipt=p.receiptUrl||p.receipt_url||'';
+        h+='<tr><td>'+esc(p.entitySourceName||p.entityType||'Payment')+'</td>'+
+          '<td>'+fmtMoney(p.amount)+'</td>'+
+          '<td><span class="pill '+pill(p.status)+'">'+esc(p.status||'—')+'</span></td>'+
+          '<td class="muted">'+fmtDate(p.createdAt||p.dateAdded)+'</td>'+
+          '<td style="text-align:right;">'+(receipt?'<a class="btn-ghost" href="'+esc(receipt)+'" target="_blank" rel="noopener">Receipt</a>':'')+'</td></tr>';
+      });
+      h+='</tbody></table>';
+    }
+    h+='</div>';
+    $('#tabContent').innerHTML=h;
+    wireInvoiceButtons();
+  }catch(e){ if(e.message!=='unauthorized') $('#tabContent').innerHTML='<div class="empty">Could not load invoices.</div>'; }
+}
+function wireInvoiceButtons(){
+  $$('[data-pay]').forEach(btn=>btn.addEventListener('click',async()=>{
+    btn.disabled=true; btn.textContent='Opening…';
+    try{
+      const d=await api('/api/portal/pay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({invoiceId:btn.dataset.pay})});
+      if(d.hostedUrl){ window.open(d.hostedUrl,'_blank','noopener'); btn.textContent='Opened ↗'; }
+      else{ toast('No payment URL available — try Email Link.'); btn.disabled=false; btn.textContent='Pay Now'; }
+    }catch(err){ toast(err.message||'Error.'); btn.disabled=false; btn.textContent='Pay Now'; }
+  }));
+  $$('[data-email]').forEach(btn=>btn.addEventListener('click',async()=>{
+    btn.disabled=true; btn.textContent='Sending…';
+    try{
+      const d=await api('/api/portal/pay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({invoiceId:btn.dataset.email,email:true})});
+      toast(d.message||'Sent.'); btn.textContent='Sent ✓';
+    }catch(err){ toast(err.message||'Error.'); btn.disabled=false; btn.textContent='Email Link'; }
+  }));
+}
 
-  let html='';
-  html+='<h2>Welcome back, '+esc(me.firstName||me.name||'')+'</h2>';
-  html+='<div class="stat-grid">'+
-    '<div class="stat"><div class="label">Outstanding Balance</div><div class="value">'+fmtMoney(outstanding)+'</div></div>'+
-    '<div class="stat"><div class="label">Total Paid</div><div class="value">'+fmtMoney(collected)+'</div></div>'+
-    '<div class="stat"><div class="label">Invoices</div><div class="value">'+invoices.length+'</div></div>'+
-  '</div>';
+/* ---------- SUBSCRIPTIONS / MEMBERSHIP ---------- */
+async function renderSubs(){
+  try{
+    if(!state.subs){ const s=await api('/api/portal/subscriptions'); state.subs=s.data||[]; }
+    let h='<div class="panel"><h2>My Membership</h2>';
+    if(!state.subs.length){
+      h+='<div class="empty">No active membership. Browse plans below to enroll.</div>';
+    } else {
+      h+='<table class="tbl"><thead><tr><th>Plan</th><th>Status</th><th>Amount</th><th>Next Billing</th><th></th></tr></thead><tbody>';
+      state.subs.forEach(s=>{
+        const id=s._id||s.id;
+        const status=(s.status||'').toLowerCase();
+        const cancellable=['active','trialing','past_due'].includes(status);
+        h+='<tr><td>'+esc(s.name||s.planName||'Membership')+'</td>'+
+          '<td><span class="pill '+pill(s.status)+'">'+esc(s.status||'—')+'</span></td>'+
+          '<td>'+fmtMoney(s.amount||s.unitAmount)+(s.interval?' / '+esc(s.interval):'')+'</td>'+
+          '<td class="muted">'+fmtDate(s.nextBillingDate||s.currentPeriodEnd)+'</td>'+
+          '<td style="text-align:right;">'+(cancellable?'<button class="btn-danger" data-cancel="'+esc(id)+'">Cancel</button>':'<span class="muted">—</span>')+'</td></tr>';
+      });
+      h+='</tbody></table>';
+    }
+    h+='</div>';
+    h+=plansBlock();
+    h+='<div class="panel"><h2>Payment Methods</h2>'+
+       '<p class="muted" style="font-size:.9rem;">Your saved cards are managed through our secure payment processor. To update, add, or remove a card, click <em>Pay Now</em> on any invoice — the hosted checkout includes a card management option.</p>'+
+       '</div>';
+    $('#tabContent').innerHTML=h;
+    $$('[data-cancel]').forEach(btn=>btn.addEventListener('click',async()=>{
+      if(!confirm('Cancel this membership at the end of the current billing period?')) return;
+      btn.disabled=true; btn.textContent='Cancelling…';
+      try{
+        const d=await api('/api/portal/subscription-cancel',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscriptionId:btn.dataset.cancel})});
+        toast(d.message||'Cancelled.'); state.subs=null; renderSubs();
+      }catch(err){ toast(err.message||'Error.'); btn.disabled=false; btn.textContent='Cancel'; }
+    }));
+  }catch(e){ if(e.message!=='unauthorized') $('#tabContent').innerHTML='<div class="empty">Could not load membership.</div>'; }
+}
 
-  /* invoices */
-  html+='<div class="panel"><h2>My Invoices</h2>';
-  if(!invoices.length){ html+='<div class="empty">No invoices yet.</div>'; }
-  else{
-    html+='<table class="tbl"><thead><tr><th>Invoice</th><th>Status</th><th>Amount</th><th>Due</th><th></th></tr></thead><tbody>';
-    invoices.forEach(i=>{
-      const unpaid=i.status!=='paid'&&i.status!=='void';
-      html+='<tr><td>'+esc(i.name||i.invoiceNumber||'Invoice')+'</td>'+
-        '<td><span class="pill '+pill(i.status)+'">'+esc(i.status||'—')+'</span></td>'+
-        '<td>'+fmtMoney(i.total!=null?i.total:i.amountDue)+'</td>'+
-        '<td class="muted">'+fmtDate(i.dueDate)+'</td>'+
-        '<td>'+(unpaid?'<button class="btn-pay" data-pay="'+esc(i._id)+'">Pay / Email Link</button>':'<span class="muted">Paid</span>')+'</td></tr>';
-    });
-    html+='</tbody></table>';
-  }
-  html+='</div>';
-
-  /* payment history */
-  html+='<div class="panel"><h2>Payment History</h2>';
-  if(!payments.length){ html+='<div class="empty">No payments recorded yet.</div>'; }
-  else{
-    html+='<table class="tbl"><thead><tr><th>For</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead><tbody>';
-    payments.forEach(p=>{
-      html+='<tr><td>'+esc(p.entitySourceName||p.entityType||'Payment')+'</td>'+
-        '<td>'+fmtMoney(p.amount)+'</td>'+
-        '<td><span class="pill '+pill(p.status)+'">'+esc(p.status||'—')+'</span></td>'+
-        '<td class="muted">'+fmtDate(p.createdAt||p.dateAdded)+'</td></tr>';
-    });
-    html+='</tbody></table>';
-  }
-  html+='</div>';
-
-  /* plans */
-  html+='<div class="panel"><h2>Lesson Plans &amp; Payment Options</h2><div class="plans">'+
+function plansBlock(){
+  return '<div class="panel"><h2>Lesson Plans</h2><div class="plans">'+
     '<div class="plan"><h4>Starter Foundations</h4><div class="price">$200</div><p>4 lessons · 30-day commitment · great for getting started.</p></div>'+
     '<div class="plan"><h4>6-Month Mastery</h4><div class="price">$1,397</div><p>Weekly lessons · performance syllabus · branded polo + certificate.</p></div>'+
     '<div class="plan"><h4>Annual Elite</h4><div class="price">$2,497</div><p>Year-round track · locked-in rate · VIP scheduling priority.</p></div>'+
-  '</div><p class="muted" style="margin-top:14px;font-size:.84rem;">Flexible monthly payment plans available via Affirm, Klarna &amp; Afterpay. Questions about a plan? Call (609) 920-0033.</p></div>';
+  '</div><p class="muted" style="margin-top:14px;font-size:.84rem;">Flexible monthly payment plans available via Affirm, Klarna &amp; Afterpay. To enroll or change plans, call <a href="tel:+16099200033">(609) 920-0033</a>.</p></div>';
+}
 
-  $('#content').innerHTML=html;
+/* ---------- SCHEDULE ---------- */
+async function renderSchedule(){
+  try{
+    if(!state.appts){ const a=await api('/api/portal/appointments'); state.appts=a.events||[]; }
+    const now=new Date();
+    const upcoming=state.appts.filter(e=>new Date(e.startTime)>=now);
+    const past=state.appts.filter(e=>new Date(e.startTime)<now).reverse();
 
-  document.querySelectorAll('[data-pay]').forEach(btn=>{
-    btn.addEventListener('click',async()=>{
-      btn.disabled=true; btn.textContent='Sending…';
+    const tbl=(list,emptyMsg)=>{
+      if(!list.length) return '<div class="empty">'+emptyMsg+'</div>';
+      let h='<table class="tbl"><thead><tr><th>Lesson</th><th>When</th><th>Status</th></tr></thead><tbody>';
+      list.forEach(e=>{
+        h+='<tr><td>'+esc(e.title)+'</td>'+
+          '<td class="muted">'+fmtDateTime(e.startTime)+'</td>'+
+          '<td><span class="pill '+pill(e.status||'upcoming')+'">'+esc(e.status||'scheduled')+'</span></td></tr>';
+      });
+      h+='</tbody></table>';
+      return h;
+    };
+
+    let h='<div class="panel"><h2>Upcoming Lessons</h2>'+tbl(upcoming,'No upcoming lessons. Call (609) 920-0033 to book.')+'</div>';
+    h+='<div class="panel"><h2>Past Lessons</h2>'+tbl(past.slice(0,25),'No past lessons on file.')+'</div>';
+    $('#tabContent').innerHTML=h;
+  }catch(e){ if(e.message!=='unauthorized') $('#tabContent').innerHTML='<div class="empty">Could not load schedule.</div>'; }
+}
+
+/* ---------- STUDENTS ---------- */
+async function renderStudents(){
+  try{
+    if(!state.students){ const s=await api('/api/portal/students'); state.students=s.students||[]; }
+    let h='<div class="panel"><h2>My Students</h2>';
+    if(!state.students.length){
+      h+='<div class="empty">No students linked to your account yet. Call <a href="tel:+16099200033">(609) 920-0033</a> to add one.</div>';
+    } else {
+      h+='<div class="form-grid" style="gap:18px;">';
+      state.students.forEach(st=>{
+        const cost=st.monthlyCost?fmtMoney(st.monthlyCost)+' / mo':'';
+        h+='<div style="background:var(--black);border:1px solid var(--line);border-radius:10px;padding:18px;">'+
+           '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:8px;">'+
+             '<h3 style="color:var(--gold);margin:0;">'+esc(st.name)+'</h3>'+
+             (cost?'<span class="pill due">'+esc(cost)+'</span>':'')+
+           '</div>'+
+           (st.trainingType?'<div style="font-size:.9rem;margin-bottom:6px;"><span class="muted">Training:</span> '+esc(st.trainingType)+'</div>':'')+
+           '</div>';
+      });
+      h+='</div>';
+      h+='<p class="muted" style="font-size:.82rem;margin-top:16px;">To add, remove, or update a student record, call <a href="tel:+16099200033">(609) 920-0033</a>.</p>';
+    }
+    h+='</div>';
+    $('#tabContent').innerHTML=h;
+  }catch(e){ if(e.message!=='unauthorized') $('#tabContent').innerHTML='<div class="empty">Could not load students.</div>'; }
+}
+
+/* ---------- PROFILE ---------- */
+async function renderProfile(){
+  try{
+    if(!state.profile) state.profile=await api('/api/portal/profile');
+    const p=state.profile;
+    const fld=(name,label,val,opts={})=>'<div class="field"><label>'+label+'</label><input name="'+name+'" value="'+esc(val||'')+'"'+(opts.disabled?' disabled':'')+(opts.type?' type="'+opts.type+'"':'')+'></div>';
+    let h='<div class="panel"><h2>My Information</h2>'+
+      '<form id="profileForm" class="form-grid">'+
+        fld('firstName','First name',p.firstName)+
+        fld('lastName','Last name',p.lastName)+
+        fld('email','Email',p.email,{disabled:true,type:'email'})+
+        fld('phone','Phone',p.phone,{type:'tel'})+
+      '</form>'+
+      '<h3 style="margin-top:22px;">Mailing Address</h3>'+
+      '<form id="addressForm" class="form-grid">'+
+        fld('address1','Street',p.address1)+
+        fld('city','City',p.city)+
+        fld('state','State',p.state)+
+        fld('postalCode','Zip',p.postalCode)+
+        fld('country','Country',p.country)+
+      '</form>'+
+      '<div class="actions"><button class="btn-gold" style="width:auto;" id="saveProfile">Save Changes</button>'+
+      '<span class="muted" style="font-size:.82rem;">Email is locked — contact us to change it.</span></div>'+
+      '</div>';
+    $('#tabContent').innerHTML=h;
+    $('#saveProfile').addEventListener('click',async(e)=>{
+      e.preventDefault();
+      const btn=e.currentTarget; btn.disabled=true; btn.textContent='Saving…';
+      const data={};
+      $$('#profileForm input, #addressForm input').forEach(i=>{ if(!i.disabled) data[i.name]=i.value; });
       try{
-        const r=await fetch('/api/portal/pay',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({invoiceId:btn.dataset.pay})});
-        const d=await r.json();
-        if(r.ok){ toast(d.message||'Payment link emailed to you.'); btn.textContent='Link Sent ✓'; }
-        else{ toast(d.error||'Could not send link.'); btn.disabled=false; btn.textContent='Pay / Email Link'; }
-      }catch{ toast('Network error.'); btn.disabled=false; btn.textContent='Pay / Email Link'; }
+        const d=await api('/api/portal/profile',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+        toast(d.message||'Saved.'); state.profile=null; state.me=null;
+        await loadMe();
+      }catch(err){ toast(err.message||'Error.'); }
+      btn.disabled=false; btn.textContent='Save Changes';
     });
-  });
+  }catch(e){ if(e.message!=='unauthorized') $('#tabContent').innerHTML='<div class="empty">Could not load profile.</div>'; }
+}
+
+/* ---------- SETTINGS / NOTIFICATIONS ---------- */
+async function renderSettings(){
+  try{
+    if(!state.notif) state.notif=await api('/api/portal/notifications');
+    const n=state.notif;
+    const row=(key,label,hint)=>'<div class="toggle-row">'+
+      '<div><div class="tlabel">'+label+'</div><div class="thint">'+hint+'</div></div>'+
+      '<label class="switch"><input type="checkbox" data-channel="'+key+'"'+(n[key]?' checked':'')+'><span class="slider"></span></label>'+
+      '</div>';
+    let h='<div class="panel"><h2>Notification Preferences</h2>'+
+      '<div class="toggles">'+
+        row('email','Email','Invoices, lesson reminders, recital announcements')+
+        row('sms','Text Messages','Last-minute schedule changes and reminders')+
+        row('call','Phone Calls','Reserved for important account issues only')+
+      '</div></div>'+
+      '<div class="panel"><h2>Account</h2>'+
+      '<p class="muted" style="font-size:.9rem;">Need to change your email, link a parent/student account, or close your account? Call us at <a href="tel:+16099200033">(609) 920-0033</a> or email <a href="mailto:info@jcmusicenterprise.com">info@jcmusicenterprise.com</a>.</p>'+
+      '</div>';
+    $('#tabContent').innerHTML=h;
+    $$('[data-channel]').forEach(cb=>cb.addEventListener('change',async()=>{
+      const ch=cb.dataset.channel; const val=cb.checked;
+      try{
+        const d=await api('/api/portal/notifications',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({[ch]:val})});
+        toast(d.message||'Updated.'); state.notif[ch]=val;
+      }catch(err){ toast(err.message||'Error.'); cb.checked=!val; }
+    }));
+  }catch(e){ if(e.message!=='unauthorized') $('#tabContent').innerHTML='<div class="empty">Could not load settings.</div>'; }
 }
 
 /* boot */
