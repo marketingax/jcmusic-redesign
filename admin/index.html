@@ -130,6 +130,7 @@ button{font-family:inherit;cursor:pointer;}
     </div>
     <div class="nav-row">
       <div class="nav-item active" data-view="overview"><span class="ic">▦</span> Overview</div>
+      <div class="nav-item" data-view="overdue"><span class="ic">⚠️</span> Overdue</div>
       <div class="nav-item" data-view="appointments"><span class="ic">🗓</span> Appointments</div>
       <div class="nav-item" data-view="contacts"><span class="ic">👤</span> Contacts</div>
       <div class="nav-item" data-view="conversations"><span class="ic">💬</span> Conversations</div>
@@ -203,7 +204,7 @@ const loading = ()=> content.innerHTML='<div class="loading">Loading…</div>';
 
 /* ---------- views ---------- */
 let current='overview';
-const titles={overview:'Overview',appointments:'Appointments',contacts:'Contacts',conversations:'Conversations',pipeline:'Pipeline',payments:'Payments',invoices:'Invoices'};
+const titles={overview:'Overview',overdue:'Overdue / Coverage',appointments:'Appointments',contacts:'Contacts',conversations:'Conversations',pipeline:'Pipeline',payments:'Payments',invoices:'Invoices'};
 
 document.querySelectorAll('.nav-item').forEach(n=>{
   n.addEventListener('click',()=>render(n.dataset.view));
@@ -214,7 +215,7 @@ function render(view){
   current=view;
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
   $('#viewTitle').textContent=titles[view]||view;
-  ({overview:viewOverview,appointments:viewAppointments,contacts:viewContacts,
+  ({overview:viewOverview,overdue:viewOverdue,appointments:viewAppointments,contacts:viewContacts,
     conversations:viewConversations,pipeline:viewPipeline,payments:viewPayments,
     invoices:viewInvoices}[view]||viewOverview)();
 }
@@ -252,6 +253,44 @@ function renderApptList(events, el, limit){
     '<div class="appt-sub">'+esc(ev.appointmentStatus||'')+(ev.isRecurring?' · recurring':'')+'</div></div>'+
     '<div class="appt-when">'+fmtDate(ev.startTime)+'</div></div>'
   )).join('');
+}
+
+async function viewOverdue(){
+  loading();
+  try{
+    const d = await api('/api/overdue');
+    const fmtDay = (v)=>{ const dt=new Date(v); return isNaN(dt)?'—':dt.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); };
+    const row = (r, badge)=>(
+      '<tr><td><strong>'+esc(r.contactName)+'</strong></td>'+
+      '<td class="muted">'+esc(r.lastInvoiceName||'—')+'</td>'+
+      '<td>'+fmtMoney(r.lastAmount)+'</td>'+
+      '<td class="muted">'+fmtDay(r.lastPaidAt)+'</td>'+
+      '<td>'+r.coverageDays+' days</td>'+
+      '<td class="muted">'+fmtDay(r.coverageEnd)+'</td>'+
+      '<td>'+badge(r)+'</td>'+
+      '<td style="text-align:right;"><button class="refresh view-as" data-cid="'+esc(r.contactId)+'" data-name="'+esc(r.contactName)+'" style="padding:6px 10px;font-size:.78rem;">View Portal ↗</button></td></tr>'
+    );
+    const headers = '<thead><tr><th>Client</th><th>Last Invoice</th><th>Amount</th><th>Paid</th><th>Plan</th><th>Coverage Ends</th><th>Status</th><th></th></tr></thead>';
+    const tbl = (list, badge) => '<table class="tbl">'+headers+'<tbody>'+list.map(r=>row(r,badge)).join('')+'</tbody></table>';
+
+    let html = '<div class="stat-grid">'+
+      stat('Overdue', d.counts.overdue, 'past coverage')+
+      stat('Due Soon', d.counts.dueSoon, 'within 7 days')+
+      stat('Covered', d.counts.covered, 'paid up')+
+    '</div>';
+    html += '<div class="panel"><h3>Overdue — needs follow-up</h3>'+
+      (d.overdue.length? tbl(d.overdue, r=>'<span class="pill void">'+r.daysOverdue+' days late</span>') : '<div class="empty">Nobody overdue — nice work.</div>')+
+      '</div>';
+    html += '<div class="panel"><h3>Due in next 7 days</h3>'+
+      (d.dueSoon.length? tbl(d.dueSoon, r=>'<span class="pill due">in '+Math.abs(r.daysOverdue)+' days</span>') : '<div class="empty">Nobody coming up.</div>')+
+      '</div>';
+    html += '<div class="panel"><h3>Covered</h3>'+
+      (d.covered.length? tbl(d.covered, r=>'<span class="pill paid">covered</span>') : '<div class="empty">No covered clients.</div>')+
+      '</div>';
+    html += '<p class="muted" style="font-size:.8rem;">Coverage is inferred from each invoice/payment’s NAME (“1 Month”, “6 Months”, “Annual”, etc). Default = 30 days when no duration is in the title. If something looks off, rename the source invoice in GHL.</p>';
+    content.innerHTML = html;
+    document.querySelectorAll('.view-as').forEach(b=>b.addEventListener('click',()=>viewAsClient(b.dataset.cid,b.dataset.name)));
+  }catch(e){ if(e.message!=='unauthorized') content.innerHTML='<div class="err-box">Failed to load overdue data.</div>'; }
 }
 
 async function viewAppointments(){
